@@ -30,7 +30,7 @@ export const updateStudent = catchAsync(
     const { name, email, password, parentName, parentPhone, address, userId } =
       req.body;
 
-    const user = await User.findOne({ user: userId });
+    const user = await User.findOne({userId });
     const student = await Student.findOne({ user: userId });
 
     if (!student) {
@@ -93,7 +93,7 @@ export const getProfile = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { userId } = req.body;
 
-    const user = await User.findOne({ user: userId }).select("-password");
+    const user = await User.findOne({ userId}).select("-password");
     const student = await Student.findOne({ user: userId });
 
     if (!student || !user) {

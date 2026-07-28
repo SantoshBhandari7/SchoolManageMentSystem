@@ -11,7 +11,7 @@ import mongoose, { mongo } from "mongoose";
                 type:String,
 
         },
-        rollNumber:{
+        rollno:{
                 type:Number,
         },
         class:{
