@@ -7,30 +7,31 @@ import User from "../models/user.model";
 import bcrypt from "bcryptjs";
 import { hash } from "../utils/bcrypt.utils";
 
-export const getStudent = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
-    const { userId } = req.body;
+// export const getStudent = catchAsync(
+//   async (req: Request, res: Response, next: NextFunction) => {
+//     const { userId } = req.params;
 
-    const student = await Student.findOne({ user: userId });
+//     const student = await Student.findOne({user: userId });
 
-    if (!student) {
-      throw new ApiError("Studnet is not found", 404);
-    }
+//     if (!student) {
+//       throw new ApiError("Studnet is not found", 404);
+//     }
 
-    sendResponse(res, {
-      message: "Studnet record is fetched",
-      statusCode: 200,
-      data: student,
-    });
-  },
-);
+//     sendResponse(res, {
+//       message: "Studnet record is fetched",
+//       statusCode: 200,
+//       data: student,
+//     });
+//   },
+// );
 
 export const updateStudent = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { name, email, password, parentName, parentPhone, address, userId } =
+    const { name, email, password, parentName, parentPhone, address} =
       req.body;
+    const { userId } = req.params;
 
-    const user = await User.findOne({userId });
+    const user = await User.findById({userId });
     const student = await Student.findOne({ user: userId });
 
     if (!student) {
@@ -63,14 +64,15 @@ export const updateStudent = catchAsync(
 
 export const changePassword = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { oldpassword, newpassword, userId } = req.body;
+    const { oldpassword, newpassword} = req.body;
+    const { userId } =req.params;
 
-    const user = await User.findOne({ user: userId }).select("+password");
+    const user = await User.findById({userId }).select("+password");
     if (!user) {
       throw new ApiError("User is not found", 404);
     }
 
-    const ismatch = bcrypt.compare(oldpassword, user.password);
+    const ismatch = await bcrypt.compare(oldpassword, user.password);
 
     if (!ismatch) {
       throw new ApiError("Password is incorrect", 404);
@@ -91,9 +93,9 @@ export const changePassword = catchAsync(
 
 export const getProfile = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { userId } = req.body;
+    const { userId } = req.params;
 
-    const user = await User.findOne({ userId}).select("-password");
+    const user = await User.findById({ userId}).select("-password");
     const student = await Student.findOne({ user: userId });
 
     if (!student || !user) {

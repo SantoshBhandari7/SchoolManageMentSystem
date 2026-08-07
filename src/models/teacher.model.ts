@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { Role } from "../@types/enum.types";
 
 const teacherSchema = new mongoose.Schema(
   {

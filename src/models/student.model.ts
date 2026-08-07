@@ -14,10 +14,10 @@ import mongoose, { mongo } from "mongoose";
         rollno:{
                 type:Number,
         },
-        class:{
-                type:mongoose.Schema.Types.ObjectId,
-                ref:"class",
-        },
+        // class:{
+        //         type:mongoose.Schema.Types.ObjectId,
+        //         ref:"class",
+        // },
         parentName:{
                 type:String,
         },
@@ -26,5 +26,5 @@ import mongoose, { mongo } from "mongoose";
         },
  },{timestamps:true});
 
- const Student = mongoose.model("studnet",studentSchema);
+ const Student = mongoose.model("student",studentSchema);
  export default Student;

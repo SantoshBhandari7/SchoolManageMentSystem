@@ -1,6 +1,9 @@
 import express, { NextFunction, Request, Response } from "express";
 import { errorHandler } from "./Middlewares/errorHandler.middleware";
-
+import AuthRoutes from "./routes/auth.routes";
+import AdminRoutes from "./routes/admin.routes";
+import studentRoutes from "./routes/student.routes";
+import teacherRoutes from "./routes/admin.routes";
 const app =express();
 app.use(express.json());
 
@@ -12,9 +15,10 @@ app.get("/",(req:Request, res:Response,next:NextFunction)=>{
         status:"success",
         });
 });
-
-
-
+app.use("/api/v1/auth", AuthRoutes);
+app.use("/api/v1/student",AdminRoutes);
+app.use("/api/v1/student",studentRoutes);
+app.use("api/v1/teacher",teacherRoutes);
 
 
 app.use(errorHandler);

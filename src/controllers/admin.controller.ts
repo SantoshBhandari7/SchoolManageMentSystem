@@ -6,11 +6,10 @@ import Student from "../models/student.model";
 import { sendResponse } from "../utils/sendResponse.utils";
 import { Role } from "../@types/enum.types";
 import { hash } from "../utils/bcrypt.utils";
+import Teacher from "../models/teacher.model";
 
 export const getStudent = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { userId } = req.body;
-
     const students = await Student.find();
     const users = await User.find();
 
@@ -24,10 +23,11 @@ export const getStudent = catchAsync(
 
 export const getStudnetById = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { userId } = req.body;
+    const { userId } = req.params;
     const student = await Student.findOne({ user: userId });
-    const user = await User.findOne(userId);
+    const user = await User.findById(userId);
 
+    console.log("User ID:", userId);
     if (!student || !user) {
       throw new ApiError("student is not found", 404);
     }
@@ -46,10 +46,10 @@ export const getStudnetById = catchAsync(
 export const createStudent = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const {
-      userId,
       name,
       email,
       password,
+      role,
       rollno,
       address,
       parentName,
@@ -60,13 +60,19 @@ export const createStudent = catchAsync(
       "-password",
     );
 
-    if (!existstudent) {
+    if (existstudent) {
       throw new ApiError("student is already exist", 404);
     }
 
-    const user = new User({ name, email, password });
+    const user = new User({ name, email, password, role });
 
-    const student = new Student({ address, rollno, parentName, parentPhone });
+    const student = new Student({
+      user: user._id,
+      address,
+      rollno,
+      parentName,
+      parentPhone,
+    });
 
     const hashpass = await hash(password);
     user.password = hashpass;
@@ -96,7 +102,6 @@ export const updateStudent = catchAsync(
       throw new ApiError("Student is not found", 404);
     }
 
-   
     if (email) user.email = email;
     if (password) user.password = password;
     if (rollno) student.rollno = rollno;
@@ -116,22 +121,150 @@ export const updateStudent = catchAsync(
   },
 );
 
+export const deleteStudnet = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { userId } = req.body;
 
-export const deleteStudnet = catchAsync(async(req:Request, res:Response, next:NextFunction)=>{
-        const{userId}=req.body;
+    const user = await User.findByIdAndDelete({ userId });
+    const student = await Student.findByIdAndDelete({ user: userId });
 
-        const user =await User.findByIdAndDelete({userId});
-        const student = await Student.findByIdAndDelete({user:userId});
+    if (!user || !student) {
+      throw new ApiError("Student is not found", 404);
+    }
 
-        if(!user||!student){
-                throw new ApiError("Student is not found", 404);
-        }
+    sendResponse(res, {
+      message: "student Delete successful",
+      data: null,
+      statusCode: 200,
+    });
+  },
+);
 
-        sendResponse(res,{
-                message:"student Delete successful",
-                data:null,
-                statusCode:200,
-        })
+export const getAllTeacher = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const users = await User.find();
+    const teachers = await Teacher.find();
 
+    sendResponse(res, {
+      message: "All teacher records is fetched",
+      data: {
+        users,
+        teachers,
+      },
+      statusCode: 200,
+    });
+  },
+);
 
-})
+export const createTeacher = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { name, email, password, role, phone, subject, salary, address } =
+      req.body;
+
+    const existTeacher = await User.findOne({ email });
+
+    if (existTeacher) {
+      throw new ApiError("Teacher already exists", 404);
+    }
+
+    const user = new User({ name, email, password, role });
+    const teacher = new Teacher({ phone, subject, salary, address });
+
+    const hashpass = await hash(password);
+    user.password = hashpass;
+
+    user.save();
+    teacher.save();
+
+    sendResponse(res, {
+      message: "Teacher is created",
+      data: {
+        user,
+        teacher,
+      },
+      statusCode: 201,
+    });
+  },
+);
+
+export const getTeacherById = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { userId } = req.params;
+
+    const user = await User.findById(userId);
+    const teacher = await Teacher.findOne({ user: userId });
+
+    if (!user && !teacher) {
+      throw new ApiError("Teacher not found", 404);
+    }
+
+    sendResponse(res, {
+      message: "tacher record is fetch",
+      data: {
+        user,
+        teacher,
+      },
+      statusCode: 200,
+    });
+  },
+);
+
+export const updateTeacher = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { userId } = req.params;
+    const {
+      email,
+      password,
+      role,
+      phone,
+      experiance,
+      salary,
+      address,
+      subject,
+    } = req.body;
+
+    const user = await User.findById(userId);
+    const teacher = await Teacher.findOne({ user: userId });
+
+    if (!user || !teacher) {
+      throw new ApiError("Teacher not found", 404);
+    }
+
+    if (email) user.email = email;
+    if (password) user.password = password;
+    if (phone) teacher.phone = phone;
+    if (salary) teacher.salary = salary;
+    if (address) teacher.address = address;
+
+    sendResponse(res, {
+      message: "Teacher record is updated successfully",
+      data: {
+        user,
+        teacher,
+      },
+      statusCode: 201,
+    });
+  },
+);
+
+export const deleteTeacher = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { userId } = req.params;
+
+    const user = await User.findByIdAndDelete(userId);
+    const teacher = await Teacher.findByIdAndUpdate({ user: userId });
+
+    if (!user || !teacher) {
+      throw new ApiError("teacher not found", 404);
+    }
+
+    sendResponse(res, {
+      message: "Delete successfull",
+      data: {
+        user,
+        teacher,
+      },
+      statusCode: 201,
+    });
+  },
+);

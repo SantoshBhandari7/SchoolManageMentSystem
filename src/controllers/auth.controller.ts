@@ -16,7 +16,7 @@ export const registerAdmin = catchAsync(
       throw new ApiError("Admin is already exits", 401);
     }
 
-    const admin = new User({ name, email, password });
+    const admin = new User({ name, email, password, role});
 
     const hashpass = await hash(password);
     admin.password = hashpass;
@@ -42,7 +42,7 @@ export const login = catchAsync(
       throw new ApiError("Password is required", 404);
     }
 
-    const user = await User.findOne({ email }).select("+password");
+    const user = await User.findOne({ email:email}).select("+password");
 
     if (!user) {
       throw new ApiError("User not found", 404);
