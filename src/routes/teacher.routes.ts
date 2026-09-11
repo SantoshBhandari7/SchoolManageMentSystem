@@ -1,18 +1,30 @@
 import express from "express";
-import { createTeacher, deleteTeacher, getAllTeacher, getTeacherById, updateTeacher } from "../controllers/teacher.controller";
-
+import {
+  createTeacher,
+  deleteTeacher,
+  getAllTeacher,
+  getTeacherById,
+  updateTeacher,
+} from "../controllers/teacher.controller";
+import { validate } from "../Middlewares/validator.middleware";
+import {
+  createTeacherSchema,
+  deleteTeacherSchema,
+  getByIdTeacherSchema,
+  teacherSchema,
+  updateTeacherSchema,
+} from "../validators/teacher.validator";
 
 const router = express.Router();
 
+router.get("/", validate(teacherSchema), getAllTeacher);
 
-router.get("/", getAllTeacher);
+router.get("/:userId", validate(getByIdTeacherSchema), getTeacherById);
 
-router.get("/:userId", getTeacherById);
+router.post("/", validate(createTeacherSchema), createTeacher);
 
-router.post("/", createTeacher);
+router.put("/:userId", validate(updateTeacherSchema), updateTeacher);
 
-router.put("/:userId", updateTeacher);
-
-router.delete("/:userId", deleteTeacher);
+router.delete("/:userId", validate(deleteTeacherSchema), deleteTeacher);
 
 export default router;

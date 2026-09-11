@@ -7,7 +7,7 @@ const teacherSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
       required: true,
-    },  
+    },
     phone: {
       type: String,
     },
@@ -19,7 +19,6 @@ const teacherSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-
     subject: {
       type: String,
     },
