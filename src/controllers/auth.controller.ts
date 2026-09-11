@@ -84,7 +84,7 @@ export const login = catchAsync(
       email: user.email,
       role: user.role,
       name: user.name,
-    })
+    });
 
     sendResponse(res, {
       data: {

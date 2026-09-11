@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { Schema, z } from "zod";
+import { z } from "zod";
 
 export const validate = (schema: z.ZodObject) => {
     return (req: Request, res: Response, next: NextFunction) => {
@@ -27,8 +27,6 @@ export const validate = (schema: z.ZodObject) => {
         req.params = result.data.params as Record<string, any>;
         Object.assign(req.query, result.data.query);
         next();
-
-
     }
 }
 
