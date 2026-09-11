@@ -27,7 +27,7 @@ export const getStudnetById = catchAsync(
     const student = await Student.findOne({ user: userId });
     const user = await User.findById(userId);
 
-    console.log("User ID:", userId);
+    // console.log("User ID:", userId);
     if (!student || !user) {
       throw new ApiError("student is not found", 404);
     }
@@ -106,7 +106,7 @@ export const createStudent = catchAsync(
 
 export const updateStudent = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { email, password, gender, parentPhone, address } = req.body;
+    const { email, password, parentPhone, rollno, address } = req.body;
     const { userId } = req.params;
 
     const user = await User.findById({ userId });
@@ -123,6 +123,7 @@ export const updateStudent = catchAsync(
     if (email) user.email = email;
     if (parentPhone) student.parentPhone = parentPhone;
     if (address) student.address = address;
+    if (rollno) student.rollno = rollno;
 
     await user.save();
     await student.save();

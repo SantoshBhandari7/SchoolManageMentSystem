@@ -1,5 +1,6 @@
 import mongoose, { mongo } from "mongoose";
 import { Gender } from "../@types/enum.types";
+import { required } from "zod/mini";
 
 const studentSchema = new mongoose.Schema(
   {
@@ -10,7 +11,7 @@ const studentSchema = new mongoose.Schema(
     },
     gender: {
       type: String,
-      enum:Gender,
+      enum: Gender,
     },
     address: {
       type: String,
@@ -21,9 +22,11 @@ const studentSchema = new mongoose.Schema(
     class: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "class",
+      required: true,
     },
     parentName: {
       type: String,
+      required: true,
     },
     parentPhone: {
       type: Number,
