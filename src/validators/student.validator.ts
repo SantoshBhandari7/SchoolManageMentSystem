@@ -53,7 +53,7 @@ export const createStudentSchema = z.object({
   }),
 });
 
-export const updateStudent = z.object({
+export const updateStudentSchema = z.object({
   body: z.object({
     email: z
       .email({
@@ -98,5 +98,31 @@ export const updateStudent = z.object({
         error: "userId must be string",
       })
       .refine((id) => mongoose.Types.ObjectId.isValid(id), "invalid user id"),
+  }),
+});
+
+export const deleteStudentSchema = z.object({
+  params: z.object({
+    id: z
+      .string()
+      .refine((id) => mongoose.Types.ObjectId.isValid(id), "invalid id"),
+  }),
+});
+
+export const getByIdStudentSchema = z.object({
+  params: z.object({
+    id: z
+      .string()
+      .refine((id) => mongoose.Types.ObjectId.isValid(id), "invalid id"),
+  }),
+});
+
+export const studentSchema = z.object({
+  query: z.object({
+    query: z.string().optional(),
+    order: z.enum(["DESC", "ASC"]).default("DESC"),
+    sortBy: z.string().default("createdAt"),
+    limit: z.coerce.number().int().min(1).max(100).default(10),
+    page: z.coerce.number().int().min(1).default(1),
   }),
 });
