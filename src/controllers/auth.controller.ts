@@ -102,6 +102,13 @@ export const login = catchAsync(
       name: user.name,
     });
 
+    res.cookie("access_token", access_token, {
+      httpOnly: Env_Config.node_dev === "development" ? false : true,
+      maxAge: Number(Env_Config.cookie_expiry ?? "7") * 24 * 60 * 60 * 1000,
+      sameSite: Env_Config.node_dev === "development" ? "lax" : "none",
+      secure: Env_Config.node_dev === "development" ? false : true,
+    });
+
     sendMail({
       to: user.email,
       subject: "login successfully",
