@@ -6,17 +6,25 @@ import {
   getSubjectById,
   updateSubjectRecord,
 } from "../controllers/subject.controller";
+import { validate } from "../Middlewares/validator.middleware";
+import {
+  createSubjectSchema,
+  deleteSubjectSchema,
+  getSubjectByIdSchema,
+  subjectSchema,
+  updateSubjectSchema,
+} from "../validators/subject.validator";
 
 const router = express.Router();
 
-router.get("/", getAllSubject);
+router.get("/", validate(subjectSchema), getAllSubject);
 
-router.get("/:id", getSubjectById);
+router.get("/:id", validate(getSubjectByIdSchema), getSubjectById);
 
-router.post("/", createSubject);
+router.post("/", validate(createSubjectSchema), createSubject);
 
-router.put("/:id", updateSubjectRecord);
+router.put("/:id", validate(updateSubjectSchema), updateSubjectRecord);
 
-router.delete("/:id", deleteSubject);
+router.delete("/:id", validate(deleteSubjectSchema), deleteSubject);
 
 export default router;
