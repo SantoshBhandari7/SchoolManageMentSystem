@@ -123,6 +123,21 @@ export const login = catchAsync(
   },
 );
 
+export const getProfile = catchAsync(async (req: Request, res: Response) => {
+  const id = req.user._id;
+  const user = await User.findOne({ _id: id });
+
+  if (!user) {
+    throw new ApiError("profile not found", 404);
+  }
+
+  sendResponse(res, {
+    message: "profile fetched",
+    data: user,
+    statusCode: 200,
+  });
+});
+
 export const logout = catchAsync(async (req, res) => {
   res.clearCookie("access_token", {
     httpOnly: Env_Config.node_dev === "development" ? false : true,
