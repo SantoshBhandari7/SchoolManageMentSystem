@@ -17,27 +17,50 @@ import {
 } from "../validators/student.validator";
 import { uploader } from "../Middlewares/multer.middleware";
 import { profile } from "node:console";
+import { authenticate } from "../Middlewares/auth.middleware";
+import { Role } from "../@types/enum.types";
 // import { upload } from "../utils/cloudinary.utils";
 
 const upload = uploader();
 
 const router = express.Router();
 
-router.get("/", validate(studentSchema), getStudent);
+router.get(
+  "/",
+  authenticate([Role.ADMIN, Role.TEACHER]),
+  validate(studentSchema),
+  getStudent,
+);
 
-router.get("/:userId", validate(getByIdStudentSchema), getStudnetById);
+router.get(
+  "/:userId",
+  authenticate([Role.ADMIN, Role.TEACHER]),
+  validate(getByIdStudentSchema),
+  getStudnetById,
+);
 
 router.post(
   "/",
-  validate(createStudentSchema),
+  authenticate([Role.ADMIN]),
   upload.single("profile_images"),
+  validate(createStudentSchema),
   createStudent,
 );
 
-router.put("/:userId", validate(updateStudentSchema), updateStudent);
+router.put(
+  "/:userId",
+  authenticate([Role.ADMIN, Role.STUDENT]),
+  validate(updateStudentSchema),
+  updateStudent,
+);
 
-router.delete("/:userId", validate(deleteStudentSchema), deleteStudnet);
+router.delete(
+  "/:userId",
+  authenticate([Role.ADMIN]),
+  validate(deleteStudentSchema),
+  deleteStudnet,
+);
 
-router.get("/:userId", getProfile);
+router.get("/:profile", authenticate(), getProfile);
 
 export default router;

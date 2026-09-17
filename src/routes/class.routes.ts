@@ -14,17 +14,44 @@ import {
   getByIdClassSchema,
   updateClassSchema,
 } from "../validators/class.validatore";
+import { authenticate } from "../Middlewares/auth.middleware";
+import { Role } from "../@types/enum.types";
 
 const router = express.Router();
 
-router.get("/", validate(classSchema), getAllClass);
+router.get(
+  "/",
+  authenticate([Role.ADMIN, Role.STUDENT, Role.STUDENT]),
+  validate(classSchema),
+  getAllClass,
+);
 
-router.get("/:id", validate(getByIdClassSchema), getClassById);
+router.get(
+  "/:id",
+  authenticate([Role.ADMIN, Role.STUDENT, Role.TEACHER]),
+  validate(getByIdClassSchema),
+  getClassById,
+);
 
-router.post("/", validate(createClassSchema), createClass);
+router.post(
+  "/",
+  authenticate([Role.ADMIN]),
+  validate(createClassSchema),
+  createClass,
+);
 
-router.put("/:id", validate(updateClassSchema), updateClass);
+router.put(
+  "/:id",
+  authenticate([Role.ADMIN]),
+  validate(updateClassSchema),
+  updateClass,
+);
 
-router.delete("/:id", validate(deleteClassSchema), deleteClass);
+router.delete(
+  "/:id",
+  authenticate([Role.ADMIN]),
+  validate(deleteClassSchema),
+  deleteClass,
+);
 
 export default router;

@@ -14,17 +14,19 @@ import {
   teacherSchema,
   updateTeacherSchema,
 } from "../validators/teacher.validator";
+import { authenticate } from "../Middlewares/auth.middleware";
+import { Role } from "../@types/enum.types";
 
 const router = express.Router();
 
-router.get("/", validate(teacherSchema), getAllTeacher);
+router.get("/",authenticate([Role.ADMIN]),validate(teacherSchema), getAllTeacher);
 
-router.get("/:userId", validate(getByIdTeacherSchema), getTeacherById);
+router.get("/:userId", authenticate([Role.ADMIN]),validate(getByIdTeacherSchema), getTeacherById);
 
-router.post("/", validate(createTeacherSchema), createTeacher);
+router.post("/",authenticate([Role.ADMIN]), validate(createTeacherSchema), createTeacher);
 
-router.put("/:userId", validate(updateTeacherSchema), updateTeacher);
+router.put("/:userId",authenticate([Role.ADMIN]), validate(updateTeacherSchema), updateTeacher);
 
-router.delete("/:userId", validate(deleteTeacherSchema), deleteTeacher);
+router.delete("/:userId",authenticate([Role.ADMIN]), validate(deleteTeacherSchema), deleteTeacher);
 
 export default router;

@@ -14,6 +14,8 @@ import {
   subjectSchema,
   updateSubjectSchema,
 } from "../validators/subject.validator";
+import { authenticate } from "../Middlewares/auth.middleware";
+import { Role } from "../@types/enum.types";
 
 const router = express.Router();
 

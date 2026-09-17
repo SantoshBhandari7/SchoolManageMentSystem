@@ -5,10 +5,13 @@ import studentRoutes from "./routes/student.routes";
 import teacherRoutes from "./routes/teacher.routes";
 import subjectRoutes from "./routes/subject.routes";
 import classRoutes from "./routes/class.routes";
+import cookiesParser from "cookie-parser";
 import { ApiError } from "./utils/ApiError.utils";
 
 const app = express();
-app.use(express.json());
+
+app.use(cookiesParser());
+app.use(express.json({ limit: "10mb" }));
 
 app.get("/", (req: Request, res: Response, next: NextFunction) => {
   res.status(200).json({
