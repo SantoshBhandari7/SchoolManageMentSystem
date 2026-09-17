@@ -5,6 +5,7 @@ import { ApiError } from "../utils/ApiError.utils";
 import { sendResponse } from "../utils/sendResponse.utils";
 import { hash } from "../utils/bcrypt.utils";
 import Teacher from "../models/teacher.model";
+import { Role } from "../@types/enum.types";
 
 export const getAllTeacher = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -46,17 +47,8 @@ export const getTeacherById = catchAsync(
 
 export const createTeacher = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const {
-      name,
-      email,
-      password,
-      role,
-      gender,
-      phone,
-      subject,
-      salary,
-      address,
-    } = req.body;
+    const { name, email, password, gender, phone, subject, salary, address } =
+      req.body;
     const profile_image = req.file;
 
     const existTeacher = await User.findOne({ email });
@@ -65,7 +57,7 @@ export const createTeacher = catchAsync(
       throw new ApiError("Teacher already exists", 404);
     }
 
-    const user = new User({ name, email, password, role });
+    const user = new User({ name, email, password, role: Role.TEACHER });
     const teacher = new Teacher({ phone, subject, gender, salary, address });
 
     const hashpass = await hash(password);

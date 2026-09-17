@@ -6,6 +6,7 @@ import { ApiError } from "../utils/ApiError.utils";
 import User from "../models/user.model";
 import bcrypt from "bcryptjs";
 import { hash } from "../utils/bcrypt.utils";
+import { Role } from "../@types/enum.types";
 import Class from "../models/class.models";
 
 export const getStudent = catchAsync(
@@ -70,8 +71,9 @@ export const createStudent = catchAsync(
     if (existstudent) {
       throw new ApiError("student is already exist", 404);
     }
+    console.log("Request received");
 
-    const user = new User({ name, email, password, role });
+    const user = new User({ name, email, password, role: Role.STUDENT });
 
     const student = new Student({
       user: user._id,

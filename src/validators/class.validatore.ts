@@ -5,21 +5,17 @@ export const createClassSchema = z.object({
   body: z.object({
     classname: z
       .string({
-        error: (issue) => {
+        error: (issue) =>
           issue.input === null
             ? "full name is required"
-            : "full name must be string";
-        },
+            : "full name must be string",
       })
       .min(3, "name must be 2 character long")
-      .max(100, "name should not exceeds 100 characters long")
-      .trim(),
+      .max(100, "name should not exceeds 100 characters long"),
 
     section: z.string({
       error: (issue) =>
-        issue.input === undefined
-          ? "section is reauired"
-          : "section must be string",
+        issue.input === null ? "section is reauired" : "section must be string",
     }),
     room_no: z.coerce
       .number({
@@ -90,6 +86,6 @@ export const classSchema = z.object({
     order: z.enum(["DESC", "ASC"]).default("DESC"),
     sortBy: z.string().default("createdAt"),
     limit: z.coerce.number().int().min(1).max(100).default(10),
-    page:z.coerce.number().int().min(1).default(1),
+    page: z.coerce.number().int().min(1).default(1),
   }),
 });

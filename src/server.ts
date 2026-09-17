@@ -1,6 +1,8 @@
 import "dotenv/config";
+
 import app from "./app";
 import { connectDb } from "./config/db.config";
+
 import Env_Config from "./config/ENV_CONFIG";
 
 const Port = Env_Config.Port;

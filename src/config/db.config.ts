@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export const connectDb = (DB_URI:string) => {
+export const connectDb = (DB_URI: string) => {
   mongoose
     .connect(DB_URI)
     .then(() => {

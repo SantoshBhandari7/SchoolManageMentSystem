@@ -1,7 +1,6 @@
 import express, { NextFunction, Request, Response } from "express";
 import { errorHandler } from "./Middlewares/errorHandler.middleware";
 import AuthRoutes from "./routes/auth.routes";
-import AdminRoutes from "./routes/subject.routes";
 import studentRoutes from "./routes/student.routes";
 import teacherRoutes from "./routes/teacher.routes";
 import subjectRoutes from "./routes/subject.routes";
@@ -20,11 +19,10 @@ app.get("/", (req: Request, res: Response, next: NextFunction) => {
   });
 });
 
-
 app.use("/api/v1/auth", AuthRoutes);
-app.use("/api/v1/student", AdminRoutes);
+// app.use("/api/v1/student", AdminRoutes);
 app.use("/api/v1/student", studentRoutes);
-app.use("api/v1/teacher", teacherRoutes);
+app.use("/api/v1/teacher", teacherRoutes);
 app.use("/api/v1/subject", subjectRoutes);
 app.use("/api/v1/class", classRoutes);
 

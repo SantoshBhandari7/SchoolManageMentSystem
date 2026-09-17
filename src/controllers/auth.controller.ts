@@ -12,7 +12,7 @@ const uploader = "/profiles";
 
 export const registerAdmin = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { name, email, password, role } = req.body;
+    const { name, email, password } = req.body;
     const profile_image = req.file;
     console.log(profile_image);
 
@@ -32,7 +32,7 @@ export const registerAdmin = catchAsync(
       throw new ApiError("Admin is already exits", 401);
     }
 
-    const admin = new User({ name, email, password, role });
+    const admin = new User({ name, email, password, role: Role.ADMIN });
 
     const hashpass = await hash(password);
     admin.password = hashpass;
@@ -88,8 +88,8 @@ export const login = catchAsync(
 
     sendResponse(res, {
       data: {
-        data:user,
-       access_token,
+        data: user,
+        access_token,
       },
       message: "Login success",
       statusCode: 201,
