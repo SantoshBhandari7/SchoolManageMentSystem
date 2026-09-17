@@ -12,6 +12,7 @@ import {
   AccountCreatedEmailHtml,
   LoginEmailHtml,
 } from "../utils/emailTemplate.utils";
+import Env_Config from "../config/ENV_CONFIG";
 
 const uploader = "/profiles";
 
@@ -121,3 +122,18 @@ export const login = catchAsync(
     });
   },
 );
+
+export const logout = catchAsync(async (req, res) => {
+  res.clearCookie("access_token", {
+    httpOnly: Env_Config.node_dev === "development" ? false : true,
+    maxAge: Date.now(),
+    sameSite: Env_Config.node_dev === "development" ? "lax" : "none",
+    secure: Env_Config.node_dev === "development" ? false : true,
+  });
+
+  sendResponse(res, {
+    message: "logout successfully",
+    data: null,
+    statusCode: 200,
+  });
+});
