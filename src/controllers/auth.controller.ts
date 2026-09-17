@@ -7,6 +7,11 @@ import { sendResponse } from "../utils/sendResponse.utils";
 import { Role } from "../@types/enum.types";
 import { upload } from "../utils/cloudinary.utils";
 import { generateJwtToken } from "../utils/jwt.utils";
+import { sendMail } from "../utils/sendEmailService.utils";
+import {
+  AccountCreatedEmailHtml,
+  LoginEmailHtml,
+} from "../utils/emailTemplate.utils";
 
 const uploader = "/profiles";
 
@@ -48,6 +53,16 @@ export const registerAdmin = catchAsync(
 
     await admin.save();
 
+    sendMail({
+      to: admin.email,
+      subject: "account is created",
+      html: AccountCreatedEmailHtml({
+        name: admin.name,
+        email: admin.email,
+        createdAt: admin.createdAt,
+      }),
+    });
+
     sendResponse(res, {
       message: "Admin Regester Successfully",
       data: admin,
@@ -84,6 +99,16 @@ export const login = catchAsync(
       email: user.email,
       role: user.role,
       name: user.name,
+    });
+
+    sendMail({
+      to: user.email,
+      subject: "login successfully",
+      html: LoginEmailHtml({
+        name: user.name,
+        email: user.email,
+        loginAt: new Date(Date.now()),
+      }),
     });
 
     sendResponse(res, {
