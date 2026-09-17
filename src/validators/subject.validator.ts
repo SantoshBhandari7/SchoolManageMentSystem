@@ -37,15 +37,14 @@ export const createSubjectSchema = z.object({
 
     classId: z
       .string({
-        error: (issue) =>
-          issue.input === null
-            ? "class is required"
-            : "class must be in string",
+        error: "classId must be string",
       })
+
       .refine(
         (id) => mongoose.Types.ObjectId.isValid(id),
         "class id is invalid",
-      ),
+      )
+      .optional(),
   }),
 });
 

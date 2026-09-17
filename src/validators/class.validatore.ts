@@ -6,11 +6,11 @@ export const createClassSchema = z.object({
     classname: z
       .string({
         error: (issue) =>
-          issue.input === null
+          issue.input === undefined
             ? "full name is required"
             : "full name must be string",
       })
-      .min(3, "name must be 2 character long")
+      .min(3, "name must be 3 character long")
       .max(100, "name should not exceeds 100 characters long"),
 
     section: z.string({
@@ -20,17 +20,19 @@ export const createClassSchema = z.object({
     room_no: z.coerce
       .number({
         error: (issue) =>
-          issue.input === null ? "password is required" : "Invalid credintals",
+          issue.input === null
+            ? "room_no is required"
+            : "room_number must be number",
       })
       .positive("number should be positive"),
 
-    teacher: z
+    teacherId: z
       .string({
         error: "teacher must be string",
       })
       .refine(
         (id) => mongoose.Types.ObjectId.isValid(id),
-        "teacher is isnot found",
+        "Invalid teacher Id",
       ),
   }),
 });
@@ -56,11 +58,12 @@ export const updateClassSchema = z.object({
       })
       .optional(),
 
-    teacher: z
+    teacherId: z
       .string({
         error: "teacher is must be string",
       })
-      .refine((id) => mongoose.Types.ObjectId.isValid(id), "invalid id"),
+      .refine((id) => mongoose.Types.ObjectId.isValid(id), "invalid id")
+      .optional(),
   }),
 });
 

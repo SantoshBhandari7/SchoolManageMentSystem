@@ -4,14 +4,36 @@ import { Gender } from "../@types/enum.types";
 
 export const createStudentSchema = z.object({
   body: z.object({
-    user: z
+    // user:z
+    //   .string({
+    //     error: (issue) =>
+    //       issue.input === null ? "user is required" : "user must be string",
+    //   })
+    //   .refine((id) => mongoose.Types.ObjectId.isValid(id), "Invalid user id"),
+    name: z
       .string({
         error: (issue) =>
-          issue.input === null ? "user is required" : "user must be string",
+          issue.input === null
+            ? "fullname is required"
+            : "fullname must be string",
       })
-      .refine((id) => mongoose.Types.ObjectId.isValid(id), "Invalid user id"),
+      .min(3, "full_name must be 3 character long")
+      .max(100, "full_name must not exceed that 100 character"),
 
-    gender: z.enum(Gender, { error: "gender must be valid" }).optional(),
+    password: z.string({
+      error: (issue) =>
+        issue.input === null
+          ? "password is required"
+          : "password must be string",
+    }),
+    email: z.email({
+      error: (issue) =>
+        issue.input === undefined
+          ? "email is required"
+          : "Invalid email format",
+    }),
+
+    // gender: z.enum(Gender, { error: "gender must be valid" }).optional(),
 
     address: z
       .string({
@@ -27,12 +49,12 @@ export const createStudentSchema = z.object({
       .positive("rollnumber should be positive")
       .optional(),
 
-    class: z
-      .string({
-        error: (issue) =>
-          issue.input === null ? "class is required" : "class must be string",
-      })
-      .refine((id) => mongoose.Types.ObjectId.isValid(id), "invalid class id"),
+    // class: z
+    //   .string({
+    //     error: (issue) =>
+    //       issue.input === null ? "class is required" : "class must be string",
+    //   })
+    //   .refine((id) => mongoose.Types.ObjectId.isValid(id), "invalid class id"),
 
     parentName: z
       .string({

@@ -37,29 +37,28 @@ export const getSubjectById = catchAsync(
 
 export const createSubject = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { subjectname, credithour,teacherId, classId } = req.body;
+    const { subjectname, credithour, teacherId, classId } = req.body;
 
-
-    const existSubject = await Subject.findOne({subjectname});
-    const existTeacher = await Teacher.findById(teacherId);
-    const existClass = await Class.findById(classId);
+    const existSubject = await Subject.findOne({ subjectname });
+    // const existTeacher = await Teacher.findById(teacherId);
+    // const existClass = await Class.findById(classId);
 
     if (existSubject) {
       throw new ApiError("Subject already exist", 404);
     }
 
-    if (!existTeacher) {
-      throw new ApiError("Teacher is not assign", 404);
-    }
-    if (!existClass) {
-      throw new ApiError("Class is not assign", 404);
-    }
+    // if (!existTeacher) {
+    //   throw new ApiError("Teacher is not assign", 404);
+    // }
+    // if (!existClass) {
+    //   throw new ApiError("Class is not assign", 404);
+    // }
 
     const subject = new Subject({
       subjectname,
       credithour,
-      teacher: existTeacher._id,
-      class: existClass._id,
+      teacher: teacherId,
+      class: classId,
     });
 
     await subject.save();
@@ -81,14 +80,14 @@ export const updateSubjectRecord = catchAsync(
     const teacherrecord = await Teacher.findById(teacherId);
     const classrecord = await Class.findById(classId);
 
-    if (!subject ) {
+    if (!subject) {
       throw new ApiError("Subject not found", 404);
     }
-    if(!teacherrecord){
-        throw new ApiError("teacher not found",404);
+    if (!teacherrecord) {
+      throw new ApiError("teacher not found", 404);
     }
-    if(!classrecord){
-        throw new ApiError("class not found",404);
+    if (!classrecord) {
+      throw new ApiError("class not found", 404);
     }
 
     if (subjectname) subject.subjectname = subjectname;

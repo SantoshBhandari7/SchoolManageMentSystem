@@ -57,27 +57,27 @@ export const createStudent = catchAsync(
       parentName,
       parentPhone,
     } = req.body;
-    const profile_image = req.file;
-    const { classname } = req.params;
+    // const profile_image = req.file;
+    const { classname } = req.body;
 
     const existstudent = await User.findOne({ email: email }).select(
       "-password",
     );
-    const existClass = await Class.findOne({ classname });
+    // const existClass = await Class.findOne({ classname });
 
-    if (!existClass) {
-      throw new ApiError("Class is not found", 404);
-    }
+    // if (!existClass) {
+    //   throw new ApiError("Class is not found", 404);
+    // }
     if (existstudent) {
       throw new ApiError("student is already exist", 404);
     }
-    console.log("Request received");
+    // console.log("Request received");
 
     const user = new User({ name, email, password, role: Role.STUDENT });
 
     const student = new Student({
       user: user._id,
-      class: existClass._id,
+      // class: existClass._id,
       gender,
       address,
       rollno,
@@ -88,9 +88,9 @@ export const createStudent = catchAsync(
     const hashpass = await hash(password);
     user.password = hashpass;
 
-    if (profile_image) {
-      // user.profile_image = profile_image.path;
-    }
+    // if (profile_image) {
+    //   // user.profile_image = profile_image.path;
+    // }
 
     await user.save();
     await student.save();

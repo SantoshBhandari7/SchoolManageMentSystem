@@ -38,21 +38,21 @@ export const createClass = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { classname, section, room_no, teacherId } = req.body;
 
-    const existClass = await Class.findOne({ classname });
-    const existTeacher = await Teacher.findById(teacherId);
+    const existClass = await Class.findOne({ classname, section });
+    // const existTeacher = await Teacher.findById(teacherId);
 
     if (existClass) {
       throw new ApiError("class already exist", 404);
     }
-    if (!existTeacher) {
-      throw new ApiError("teacher is not assign", 404);
-    }
+    // if (!existTeacher) {
+    //   throw new ApiError("teacher doesnot exists", 404);
+    // }
 
     const newClass = new Class({
       classname,
       section,
       room_no,
-      teacher: existTeacher._id,
+      teacher: teacherId,
     });
     await newClass.save();
 

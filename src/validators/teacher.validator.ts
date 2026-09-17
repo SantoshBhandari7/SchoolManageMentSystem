@@ -4,14 +4,29 @@ import { Gender } from "../@types/enum.types";
 
 export const createTeacherSchema = z.object({
   body: z.object({
-    user: z
+    name: z
       .string({
         error: (issue) =>
-          issue.input === null ? "user is required" : "user must be string",
+          issue.input === undefined
+            ? "fullname is required"
+            : "fullname must be string",
       })
-      .refine((id) => mongoose.Types.ObjectId.isValid(id), "Invalid user id"),
+      .min(3, "full_name must be 3 character long")
+      .max(100, "full_name must not exceed that 100 character"),
 
-    gender: z.enum(Gender, { error: "gender must be valid" }).optional(),
+    password: z.string({
+      error: (issue) =>
+        issue.input === undefined
+          ? "password is required"
+          : "password must be string",
+    }),
+    email: z.email({
+      error: (issue) =>
+        issue.input === undefined
+          ? "email is required"
+          : "Invalid email format",
+    }),
+    // gender: z.enum(Gender, { error: "gender must be valid" }).optional(),
 
     address: z
       .string({
@@ -27,7 +42,8 @@ export const createTeacherSchema = z.object({
         error: "salary must be in number",
       })
       .positive("salary must be positive"),
-    experiane: z.coerce.number({
+
+    experience: z.coerce.number({
       error: "experiance must be number",
     }),
 
@@ -77,13 +93,6 @@ export const updateTeacherSchema = z.object({
       .regex(/^9\d{9}$/, "parentPhone must contain exactly 10 digits")
       .optional(),
   }),
-
-  salary: z.coerce
-    .number({
-      error: "salary must be number",
-    })
-    .positive("salary must be positive")
-    .optional(),
 
   experiance: z.coerce
     .number({

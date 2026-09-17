@@ -22,7 +22,6 @@ const studentSchema = new mongoose.Schema(
     class: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "class",
-      required: true,
     },
     parentName: {
       type: String,

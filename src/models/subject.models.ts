@@ -19,7 +19,6 @@ const subjectSchema = new mongoose.Schema(
     class: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "class",
-      required: true,
     },
   },
   { timestamps: true },
