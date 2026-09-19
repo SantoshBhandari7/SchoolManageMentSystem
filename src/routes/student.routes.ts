@@ -2,7 +2,6 @@ import express from "express";
 import {
   createStudent,
   deleteStudent,
-  // getProfile,
   getStudent,
   getStudentById,
   updateStudent,
@@ -60,7 +59,5 @@ router.delete(
   validate(deleteStudentSchema),
   deleteStudent,
 );
-
-// router.get("/:profile", authenticate(), getProfile);
 
 export default router;

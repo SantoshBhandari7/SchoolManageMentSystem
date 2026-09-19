@@ -1,4 +1,4 @@
-import { IPayload } from "./global.types";
+// import { IPayload } from "./global.types";
 
 declare global {
   namespace Express {
@@ -9,5 +9,4 @@ declare global {
     }
   }
 }
-
 export {};

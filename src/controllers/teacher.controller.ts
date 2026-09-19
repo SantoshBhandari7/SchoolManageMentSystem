@@ -6,6 +6,9 @@ import { sendResponse } from "../utils/sendResponse.utils";
 import { hash } from "../utils/bcrypt.utils";
 import Teacher from "../models/teacher.model";
 import { Role } from "../@types/enum.types";
+import { upload } from "../utils/cloudinary.utils";
+
+const uploader = "/profiles";
 
 export const getAllTeacher = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -60,11 +63,15 @@ export const createTeacher = catchAsync(
     const user = new User({ name, email, password, role: Role.TEACHER });
     const teacher = new Teacher({ phone, subject, gender, salary, address });
 
-    const hashpass = await hash(password);
-    user.password = hashpass;
+    const hashPass = await hash(password);
+    user.password = hashPass;
 
     if (profile_image) {
-      // user.profile_image = profile_image.path;
+      const { path, public_id } = await upload(profile_image, uploader);
+      user.profile_image = {
+        path,
+        public_id,
+      };
     }
 
     user.save();
@@ -84,7 +91,7 @@ export const createTeacher = catchAsync(
 export const updateTeacher = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { userId } = req.params;
-    const { email, password, phone, experiance, salary, address, subject } =
+    const { email, password, phone, experience, salary, address, subject } =
       req.body;
 
     const user = await User.findById(userId);
@@ -96,7 +103,7 @@ export const updateTeacher = catchAsync(
 
     if (email) user.email = email;
     if (password) user.password = password;
-    if (experiance) teacher.experiance = experiance;
+    if (experience) teacher.experience = experience;
     if (subject) teacher.subject = subject;
     if (phone) teacher.phone = phone;
     if (salary) teacher.salary = salary;
@@ -125,7 +132,7 @@ export const deleteTeacher = catchAsync(
     }
 
     sendResponse(res, {
-      message: "Delete successfull",
+      message: "Delete successfully",
       data: {
         user,
         teacher,

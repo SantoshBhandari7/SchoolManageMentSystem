@@ -14,7 +14,7 @@ const teacherSchema = new mongoose.Schema(
       type: String,
       enum: Gender,
     },
-    experiance: {
+    experience: {
       type: Number,
       required: true,
     },

@@ -8,6 +8,9 @@ import bcrypt from "bcryptjs";
 import { hash } from "../utils/bcrypt.utils";
 import { Role } from "../@types/enum.types";
 import Class from "../models/class.models";
+import { upload } from "../utils/cloudinary.utils";
+
+const uploader = "/profiles";
 
 export const getStudent = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -88,7 +91,11 @@ export const createStudent = catchAsync(
     user.password = hashPass;
 
     if (profile_image) {
-      // user.profile_image = profile_image.path;
+      const { path, public_id } = await upload(profile_image, uploader);
+      user.profile_image = {
+        path,
+        public_id,
+      };
     }
 
     await user.save();

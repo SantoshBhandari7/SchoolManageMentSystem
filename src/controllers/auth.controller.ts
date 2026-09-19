@@ -40,8 +40,8 @@ export const registerAdmin = catchAsync(
 
     const user = new User({ name, email, password, role: Role.ADMIN });
 
-    const hashpass = await hash(password);
-    user.password = hashpass;
+    const hashPass = await hash(password);
+    user.password = hashPass;
 
     if (profile_image) {
       const { path, public_id } = await upload(profile_image, uploader);
