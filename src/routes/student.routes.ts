@@ -1,10 +1,10 @@
 import express from "express";
 import {
   createStudent,
-  deleteStudnet,
-  getProfile,
+  deleteStudent,
+  // getProfile,
   getStudent,
-  getStudnetById,
+  getStudentById,
   updateStudent,
 } from "../controllers/student.controller";
 import { validate } from "../Middlewares/validator.middleware";
@@ -36,7 +36,7 @@ router.get(
   "/:userId",
   authenticate([Role.ADMIN, Role.TEACHER]),
   validate(getByIdStudentSchema),
-  getStudnetById,
+  getStudentById,
 );
 
 router.post(
@@ -58,9 +58,9 @@ router.delete(
   "/:userId",
   authenticate([Role.ADMIN]),
   validate(deleteStudentSchema),
-  deleteStudnet,
+  deleteStudent,
 );
 
-router.get("/:profile", authenticate(), getProfile);
+// router.get("/:profile", authenticate(), getProfile);
 
 export default router;

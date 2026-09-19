@@ -16,7 +16,7 @@ const studentSchema = new mongoose.Schema(
     address: {
       type: String,
     },
-    rollno: {
+    roll_no: {
       type: Number,
     },
     class: {

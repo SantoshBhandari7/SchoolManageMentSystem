@@ -22,7 +22,7 @@ export const getStudent = catchAsync(
   },
 );
 
-export const getStudnetById = catchAsync(
+export const getStudentById = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { userId } = req.params;
     const student = await Student.findOne({ user: userId });
@@ -52,45 +52,44 @@ export const createStudent = catchAsync(
       password,
       role,
       gender,
-      rollno,
+      roll_no,
       address,
       parentName,
       parentPhone,
     } = req.body;
-    // const profile_image = req.file;
+    const profile_image = req.file;
     const { classname } = req.body;
 
-    const existstudent = await User.findOne({ email: email }).select(
+    const existStudent = await User.findOne({ email: email }).select(
       "-password",
     );
-    // const existClass = await Class.findOne({ classname });
+    const existClass = await Class.findOne({ classname });
 
-    // if (!existClass) {
-    //   throw new ApiError("Class is not found", 404);
-    // }
-    if (existstudent) {
+    if (!existClass) {
+      throw new ApiError("Class is not found", 404);
+    }
+    if (existStudent) {
       throw new ApiError("student is already exist", 404);
     }
-    // console.log("Request received");
 
     const user = new User({ name, email, password, role: Role.STUDENT });
 
     const student = new Student({
       user: user._id,
-      // class: existClass._id,
+      class: existClass._id,
       gender,
       address,
-      rollno,
+      roll_no,
       parentName,
       parentPhone,
     });
 
-    const hashpass = await hash(password);
-    user.password = hashpass;
+    const hashPass = await hash(password);
+    user.password = hashPass;
 
-    // if (profile_image) {
-    //   // user.profile_image = profile_image.path;
-    // }
+    if (profile_image) {
+      // user.profile_image = profile_image.path;
+    }
 
     await user.save();
     await student.save();
@@ -108,7 +107,7 @@ export const createStudent = catchAsync(
 
 export const updateStudent = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { email, password, parentPhone, rollno, address } = req.body;
+    const { email, password, parentPhone, roll_no, address } = req.body;
     const { userId } = req.params;
 
     const user = await User.findById({ userId });
@@ -125,7 +124,7 @@ export const updateStudent = catchAsync(
     if (email) user.email = email;
     if (parentPhone) student.parentPhone = parentPhone;
     if (address) student.address = address;
-    if (rollno) student.rollno = rollno;
+    if (roll_no) student.roll_no = roll_no;
 
     await user.save();
     await student.save();
@@ -143,7 +142,7 @@ export const updateStudent = catchAsync(
 
 export const changePassword = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { oldpassword, newpassword } = req.body;
+    const { oldPassword, newPassword } = req.body;
     const { userId } = req.params;
 
     const user = await User.findById({ userId }).select("+password");
@@ -151,14 +150,14 @@ export const changePassword = catchAsync(
       throw new ApiError("User is not found", 404);
     }
 
-    const ismatch = await bcrypt.compare(oldpassword, user.password);
+    const isMatch = await bcrypt.compare(oldPassword, user.password);
 
-    if (!ismatch) {
+    if (!isMatch) {
       throw new ApiError("Password is incorrect", 404);
     }
 
-    const newhashpass = await hash(newpassword);
-    user.password = newhashpass;
+    const newHashPass = await hash(newPassword);
+    user.password = newHashPass;
 
     await user.save();
 
@@ -170,29 +169,29 @@ export const changePassword = catchAsync(
   },
 );
 
-export const getProfile = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
-    const { userId } = req.params;
+// export const getProfile = catchAsync(
+//   async (req: Request, res: Response, next: NextFunction) => {
+//     const { userId } = req.params;
 
-    const user = await User.findById({ userId }).select("-password");
-    const student = await Student.findOne({ user: userId });
+//     const user = await User.findById({ userId }).select("-password");
+//     const student = await Student.findOne({ user: userId });
 
-    if (!student || !user) {
-      throw new ApiError("Student not found", 404);
-    }
+//     if (!student || !user) {
+//       throw new ApiError("Student not found", 404);
+//     }
 
-    sendResponse(res, {
-      message: "Your Record fetched",
-      data: {
-        student,
-        User,
-      },
-      statusCode: 201,
-    });
-  },
-);
+//     sendResponse(res, {
+//       message: "Your Record fetched",
+//       data: {
+//         student,
+//         User,
+//       },
+//       statusCode: 201,
+//     });
+//   },
+// );
 
-export const deleteStudnet = catchAsync(
+export const deleteStudent = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { userId } = req.body;
 

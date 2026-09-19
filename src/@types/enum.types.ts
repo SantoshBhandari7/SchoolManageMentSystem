@@ -1,11 +1,11 @@
 export enum Role {
-        ADMIN="admin",
-        STUDENT ="student",
-        TEACHER="teacher",
+  ADMIN = "ADMIN",
+  STUDENT = "STUDENT",
+  TEACHER = "TEACHER",
 }
 
 export enum Gender {
-        MALE ="MALE",
-        FEMALE ="FEMALE",
-        OTHERS= "OTHERS",
+  MALE = "MALE",
+  FEMALE = "FEMALE",
+  OTHERS = "OTHERS",
 }

@@ -6,14 +6,14 @@ export interface IImage {
   public_id: string;
 }
 
-export interface Ipayload {
+export interface IPayload {
   name: string;
   email: string;
   _id: mongoose.Types.ObjectId;
   role: Role;
 }
 
-export interface IJwtDecodedData extends Ipayload {
+export interface IJwtDecodedData extends IPayload {
   iat: number;
   exp: number;
 }

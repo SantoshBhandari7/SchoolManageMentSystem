@@ -20,7 +20,7 @@ export const registerAdmin = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { name, email, password } = req.body;
     const profile_image = req.file;
-    console.log(profile_image);
+    // console.log(profile_image);
 
     if (!name) {
       throw new ApiError("Name is required", 400);
@@ -32,41 +32,40 @@ export const registerAdmin = catchAsync(
       throw new ApiError("Password is required", 400);
     }
 
-    const adminExist = await User.findOne({ email });
+    const userExist = await User.findOne({ email });
 
-    if (adminExist) {
+    if (userExist) {
       throw new ApiError("Admin is already exits", 401);
     }
 
-    const admin = new User({ name, email, password, role: Role.ADMIN });
+    const user = new User({ name, email, password, role: Role.ADMIN });
 
     const hashpass = await hash(password);
-    admin.password = hashpass;
+    user.password = hashpass;
 
     if (profile_image) {
-      // admin.profile_image = file.path;
       const { path, public_id } = await upload(profile_image, uploader);
-      admin.profile_image = {
+      user.profile_image = {
         path,
         public_id,
       };
     }
 
-    await admin.save();
+    await user.save();
 
     sendMail({
-      to: admin.email,
+      to: user.email,
       subject: "account is created",
       html: AccountCreatedEmailHtml({
-        name: admin.name,
-        email: admin.email,
-        createdAt: admin.createdAt,
+        name: user.name,
+        email: user.email,
+        createdAt: user.createdAt,
       }),
     });
 
     sendResponse(res, {
-      message: "Admin Regester Successfully",
-      data: admin,
+      message: "Admin Register Successfully",
+      data: user,
       statusCode: 201,
     });
   },
@@ -89,9 +88,9 @@ export const login = catchAsync(
       throw new ApiError("User not found", 404);
     }
 
-    const isHassPass = await compare(password, user.password);
+    const ishassPass = await compare(password, user.password);
 
-    if (!isHassPass) {
+    if (!ishassPass) {
       throw new ApiError("Invalid credentials", 404);
     }
 
@@ -130,20 +129,20 @@ export const login = catchAsync(
   },
 );
 
-export const getProfile = catchAsync(async (req: Request, res: Response) => {
-  const id = req.user._id;
-  const user = await User.findOne({ _id: id });
+// export const getProfile = catchAsync(async (req: Request, res: Response) => {
+//   const id = req.user._id;
+//   const user = await User.findOne({ _id: id });
 
-  if (!user) {
-    throw new ApiError("profile not found", 404);
-  }
+//   if (!user) {
+//     throw new ApiError("profile not found", 404);
+//   }
 
-  sendResponse(res, {
-    message: "profile fetched",
-    data: user,
-    statusCode: 200,
-  });
-});
+//   sendResponse(res, {
+//     message: "profile fetched",
+//     data: user,
+//     statusCode: 200,
+//   });
+// });
 
 export const logout = catchAsync(async (req, res) => {
   res.clearCookie("access_token", {
