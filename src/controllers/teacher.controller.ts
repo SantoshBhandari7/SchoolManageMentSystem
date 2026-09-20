@@ -38,7 +38,7 @@ export const getTeacherById = catchAsync(
     }
 
     sendResponse(res, {
-      message: "tacher record is fetch",
+      message: "teacher record is fetch",
       data: {
         user,
         teacher,
