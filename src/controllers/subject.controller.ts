@@ -5,13 +5,56 @@ import { sendResponse } from "../utils/sendResponse.utils";
 import { ApiError } from "../utils/ApiError.utils";
 import Teacher from "../models/teacher.model";
 import Class from "../models/class.models";
+import { regex } from "zod";
+import { getPagination } from "../utils/withPagination.utils";
 
 export const getAllSubject = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const subject = await Subject.find();
+    const {
+      query,
+      order = "DESC",
+      sortBy = "createdAt",
+      page = 1,
+      limit = 10,
+    } = req.query;
+
+    const perPage = Number(limit);
+    const currentPage = Number(page);
+    const skip = perPage * (currentPage - 1);
+
+    const filter: any = {};
+
+    if (query) {
+      filter.$or = [
+        {
+          name: {
+            $regex: query,
+            options: "i",
+          },
+
+          credithour: {
+            $regex: query,
+            $option: "i",
+          },
+        },
+      ];
+    }
+
+    const subjects = await Subject.find(filter)
+      .limit(perPage)
+      .skip(skip)
+      .sort({
+        [sortBy as string]: order === "DESC" ? -1 : 1,
+      });
+
+    const total_count = await Subject.countDocuments(filter);
+
     sendResponse(res, {
-      message: "All Subject fetche",
-      data: subject,
+      message: "All Subjects fetch",
+      data: {
+        subjects,
+        pagination: getPagination(total_count, perPage, currentPage),
+      },
       statusCode: 200,
     });
   },
