@@ -9,6 +9,7 @@ import { hash } from "../utils/bcrypt.utils";
 import { Role } from "../@types/enum.types";
 import Class from "../models/class.models";
 import { upload } from "../utils/cloudinary.utils";
+import { getPagination } from "../utils/withPagination.utils";
 
 const uploader = "/profiles";
 
@@ -56,7 +57,10 @@ export const getStudent = catchAsync(
 
     sendResponse(res, {
       message: "All students are fetched",
-      data: students,
+      data: {
+        students,
+        getPagination: getPagination(total_count, perPage, currentPage),
+      },
       statusCode: 200,
     });
   },
