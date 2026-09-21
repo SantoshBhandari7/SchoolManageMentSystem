@@ -14,7 +14,44 @@ const uploader = "/profiles";
 
 export const getStudent = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const students = await Student.find();
+    const {
+      query,
+      order = "DESC",
+      sortBy = "createdAt",
+      page = 1,
+      limit = 10,
+    } = req.query;
+
+    const filter: any = {};
+    const perPage = Number(limit);
+    const currentPage = Number(page);
+    const skip = perPage * (currentPage - 1);
+
+    if (query) {
+      filter.$or = [
+        {
+          name: {
+            $regex: query,
+            $option: "i",
+          },
+        },
+        {
+          roll_no: {
+            $regex: query,
+            $option: "i",
+          },
+        },
+      ];
+    }
+
+    const students = await Student.find(filter)
+      .limit(perPage)
+      .skip(skip)
+      .sort({
+        [sortBy as string]: order === "DESC" ? -1 : 1,
+      });
+
+    const total_count = await Student.countDocuments(filter);
     const users = await User.find();
 
     sendResponse(res, {
