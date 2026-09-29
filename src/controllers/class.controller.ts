@@ -4,13 +4,14 @@ import Class from "../models/class.models";
 import { sendResponse } from "../utils/sendResponse.utils";
 import { ApiError } from "../utils/ApiError.utils";
 import Teacher from "../models/teacher.model";
+import { getPagination } from "../utils/withPagination.utils";
 
 export const getAllClass = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const {
       query,
       limit = 10,
-      orderBy = "DESC",
+      order = "DESC",
       sortBy = "createdAt",
       page = 1,
     } = req.query;
@@ -29,14 +30,28 @@ export const getAllClass = catchAsync(
             $options: "i",
           },
         },
+        {
+          section: {
+            $regex: query,
+            $options: "i",
+          },
+        },
       ];
     }
 
-    const classRecord = await Class.find();
+    const classRecord = await Class.find(filter)
+      .limit(perPage)
+      .skip(skip)
+      .sort({ [sortBy as string]: order === "DESC" ? -1 : 1 });
+
+    const total_count = await Class.countDocuments(filter);
 
     sendResponse(res, {
       message: "All Class Record Fetch",
-      data: classRecord,
+      data: {
+        classRecord,
+        pagination: getPagination(total_count, perPage, currentPage),
+      },
       statusCode: 200,
     });
   },
@@ -69,9 +84,6 @@ export const createClass = catchAsync(
     if (existClass) {
       throw new ApiError("class already exist", 404);
     }
-    // if (!existTeacher) {
-    //   throw new ApiError("teacher doesnot exists", 404);
-    // }
 
     const newClass = new Class({
       classname,
