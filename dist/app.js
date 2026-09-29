@@ -23,7 +23,6 @@ app.get("/", (req, res, next) => {
     });
 });
 app.use("/api/v1/auth", auth_routes_1.default);
-// app.use("/api/v1/student", AdminRoutes);
 app.use("/api/v1/student", student_routes_1.default);
 app.use("/api/v1/teacher", teacher_routes_1.default);
 app.use("/api/v1/subject", subject_routes_1.default);

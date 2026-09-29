@@ -23,7 +23,6 @@ app.get("/", (req: Request, res: Response, next: NextFunction) => {
 });
 
 app.use("/api/v1/auth", AuthRoutes);
-// app.use("/api/v1/student", AdminRoutes);
 app.use("/api/v1/student", studentRoutes);
 app.use("/api/v1/teacher", teacherRoutes);
 app.use("/api/v1/subject", subjectRoutes);
