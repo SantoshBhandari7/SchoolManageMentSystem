@@ -7,11 +7,36 @@ import Teacher from "../models/teacher.model";
 
 export const getAllClass = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const classrecord = await Class.find();
+    const {
+      query,
+      limit = 10,
+      orderBy = "DESC",
+      sortBy = "createdAt",
+      page = 1,
+    } = req.query;
+
+    const perPage = Number(limit);
+    const currentPage = Number(page);
+    const skip = perPage * (currentPage - 1);
+
+    const filter: any = {};
+
+    if (query) {
+      filter.$or = [
+        {
+          className: {
+            $regex: query,
+            $options: "i",
+          },
+        },
+      ];
+    }
+
+    const classRecord = await Class.find();
 
     sendResponse(res, {
       message: "All Class Record Fetch",
-      data: classrecord,
+      data: classRecord,
       statusCode: 200,
     });
   },
@@ -21,14 +46,14 @@ export const getClassById = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
 
-    const classbyId = await Class.findById(id);
-    if (!classbyId) {
+    const classById = await Class.findById(id);
+    if (!classById) {
       throw new ApiError("Class not found", 404);
     }
 
     sendResponse(res, {
       message: "class record fetch",
-      data: classbyId,
+      data: classById,
       statusCode: 200,
     });
   },
@@ -69,26 +94,26 @@ export const updateClass = catchAsync(
     const { id } = req.params;
     const { classname, room_no, teacherId, section } = req.body;
 
-    const classrecord = await Class.findById(id);
+    const classRecord = await Class.findById(id);
     const teacher = await Teacher.findById(teacherId);
 
-    if (!classrecord) {
+    if (!classRecord) {
       throw new ApiError("class is not found", 404);
     }
     if (!teacher) {
       throw new ApiError("teacher not found", 404);
     }
 
-    if (classname) classrecord.classname = classname;
-    if (room_no) classrecord.room_no = room_no;
-    if (section) classrecord.section = section;
-    if (teacherId) classrecord.teacher = teacher._id;
+    if (classname) classRecord.classname = classname;
+    if (room_no) classRecord.room_no = room_no;
+    if (section) classRecord.section = section;
+    if (teacherId) classRecord.teacher = teacher._id;
 
-    await classrecord.save();
+    await classRecord.save();
 
     sendResponse(res, {
       message: "Class record updated",
-      data: classrecord,
+      data: classRecord,
       statusCode: 201,
     });
   },
@@ -98,9 +123,9 @@ export const deleteClass = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
 
-    const classrecord = await Class.findByIdAndDelete(id);
+    const classRecord = await Class.findByIdAndDelete(id);
 
-    if (!classrecord) {
+    if (!classRecord) {
       throw new ApiError("Class not found", 404);
     }
 

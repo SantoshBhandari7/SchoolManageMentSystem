@@ -29,7 +29,7 @@ export const getAllSubject = catchAsync(
         {
           name: {
             $regex: query,
-            options: "i",
+            $options: "i",
           },
 
           credithour: {
