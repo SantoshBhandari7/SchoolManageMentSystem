@@ -59,6 +59,7 @@ export const getStudent = catchAsync(
       message: "All students are fetched",
       data: {
         students,
+        users,
         pagination: getPagination(total_count, perPage, currentPage),
       },
       statusCode: 200,

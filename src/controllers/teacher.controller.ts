@@ -7,18 +7,61 @@ import { hash } from "../utils/bcrypt.utils";
 import Teacher from "../models/teacher.model";
 import { Role } from "../@types/enum.types";
 import { upload } from "../utils/cloudinary.utils";
+import { getPagination } from "../utils/withPagination.utils";
 
 const uploader = "/profiles";
 
 export const getAllTeacher = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const users = await User.find();
-    const teachers = await Teacher.find();
+    const {
+      query,
+      limit = 10,
+      page = 1,
+      order = "DESC",
+      sortBy = "createdAt",
+    } = req.query;
+
+    const perPage = Number(limit);
+    const currentPage = Number(page);
+    const skip = perPage * (currentPage - 1);
+
+    const filter: any = {};
+
+    if (query) {
+      filter.$or = [
+        {
+          name: {
+            $regex: query,
+            $options: "i",
+          },
+        },
+        {
+          subject: {
+            $regex: query,
+            $options: "i",
+          },
+        },
+        {
+          experience: {
+            $regex: query,
+            $options: "i",
+          },
+        },
+      ];
+    }
+
+    const teachers = await Teacher.find(filter)
+      .populate("user", "name email")
+      .limit(perPage)
+      .skip(skip)
+      .sort({
+        [sortBy as string]: order === "DESC" ? -1 : 1,
+      });
 
     sendResponse(res, {
       message: "All teacher records is fetched",
       data: {
-        users,
+        pagination: getPagination,
         teachers,
       },
       statusCode: 200,
