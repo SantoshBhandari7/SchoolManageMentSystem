@@ -3,15 +3,15 @@ export const getPagination = async (
   perPage: number,
   currentPage: number,
 ) => {
-  const totalpage = Math.ceil(total_count / perPage);
-  const nextpage = currentPage < totalpage ? currentPage + 1 : null;
-  const prevpgae = currentPage > 1 ? currentPage - 1 : null;
+  const totalPage = Math.ceil(total_count / perPage);
+  const nextPage = currentPage < totalPage ? currentPage + 1 : null;
+  const prevPage = currentPage > 1 ? currentPage - 1 : null;
 
   return {
     total_count,
-    totalpage,
-    nextpage,
-    prevpgae,
+    totalPage,
+    nextPage,
+    prevPage,
     page: currentPage,
     limit: perPage,
   };

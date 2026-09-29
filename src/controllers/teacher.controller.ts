@@ -58,10 +58,11 @@ export const getAllTeacher = catchAsync(
         [sortBy as string]: order === "DESC" ? -1 : 1,
       });
 
+    const total_count = await Teacher.countDocuments(filter);
     sendResponse(res, {
       message: "All teacher records is fetched",
       data: {
-        pagination: getPagination,
+        pagination: getPagination(total_count, perPage, currentPage),
         teachers,
       },
       statusCode: 200,
