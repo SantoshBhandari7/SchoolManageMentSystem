@@ -46,6 +46,7 @@ export const getStudent = catchAsync(
     }
 
     const students = await Student.find(filter)
+      .populate("user", "name email")
       .limit(perPage)
       .skip(skip)
       .sort({
@@ -53,13 +54,11 @@ export const getStudent = catchAsync(
       });
 
     const total_count = await Student.countDocuments(filter);
-    const users = await User.find();
 
     sendResponse(res, {
       message: "All students are fetched",
       data: {
         students,
-        users,
         pagination: getPagination(total_count, perPage, currentPage),
       },
       statusCode: 200,
