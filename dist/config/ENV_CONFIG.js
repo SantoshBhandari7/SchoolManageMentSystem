@@ -5,6 +5,7 @@ const Env_Config = {
     Port: process.env.PORT,
     db_uri: process.env.DB_URI,
     node_dev: process.env.NODE_DEV,
+    allowedOrigins: process.env.ORIGIN,
     cloudinary_name: process.env.CLOUDINARY_CLOUD_NAME,
     cloudinary_apikey: process.env.CLOUDINARY_API_KEY,
     cloudinary_secrete: process.env.CLOUDINARY_API_SECRETE,

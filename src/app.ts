@@ -1,3 +1,4 @@
+import cors from "cors";
 import express, { NextFunction, Request, Response } from "express";
 import { errorHandler } from "./Middlewares/errorHandler.middleware";
 import AuthRoutes from "./routes/auth.routes";
@@ -7,8 +8,17 @@ import subjectRoutes from "./routes/subject.routes";
 import classRoutes from "./routes/class.routes";
 import cookiesParser from "cookie-parser";
 import { ApiError } from "./utils/ApiError.utils";
+import Env_Config from "./config/ENV_CONFIG";
 
 const app = express();
+const allowedOrigins = Env_Config.allowedOrigins.split(",") ?? [];
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+  }),
+);
 
 app.use(cookiesParser());
 app.use(express.json({ limit: "10mb" }));
