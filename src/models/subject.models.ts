@@ -16,6 +16,11 @@ const subjectSchema = new mongoose.Schema(
       ref: "teacher",
       required: true,
     },
+    program: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "program",
+      required: true,
+    },
     class: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "class",
