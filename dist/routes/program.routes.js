@@ -12,7 +12,9 @@ const program_validate_1 = require("../validators/program.validate");
 const router = express_1.default.Router();
 router.get("/", (0, validator_middleware_1.validate)(program_validate_1.getProgramsSchema), program_controller_1.getProgram);
 router.get("/:id", (0, validator_middleware_1.validate)(program_validate_1.getProgramByIdSchema), program_controller_1.getProgramById);
-router.post("/", (0, auth_middleware_1.authenticate)([enum_types_1.Role.ADMIN]), (0, validator_middleware_1.validate)(program_validate_1.createProgramSchema), program_controller_1.createProgram);
+router.post("/", 
+//   authenticate([Role.ADMIN]),
+(0, validator_middleware_1.validate)(program_validate_1.createProgramSchema), program_controller_1.createProgram);
 router.put("/:id", (0, auth_middleware_1.authenticate)([enum_types_1.Role.ADMIN]), (0, validator_middleware_1.validate)(program_validate_1.updateProgramSchema), program_controller_1.updateProgram);
 router.delete("/:id", (0, auth_middleware_1.authenticate)([enum_types_1.Role.ADMIN]), (0, validator_middleware_1.validate)(program_validate_1.deleteProgramSchema), program_controller_1.deleteProgram);
 exports.default = router;

@@ -22,7 +22,7 @@ router.get("/", validate(getProgramsSchema), getProgram);
 router.get("/:id", validate(getProgramByIdSchema), getProgramById);
 router.post(
   "/",
-  authenticate([Role.ADMIN]),
+  //   authenticate([Role.ADMIN]),
   validate(createProgramSchema),
   createProgram,
 );
