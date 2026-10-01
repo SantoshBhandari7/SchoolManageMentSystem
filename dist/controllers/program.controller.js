@@ -29,9 +29,9 @@ exports.getProgramById = (0, catchAsync_utils_1.catchAsync)(async (req, res, nex
     });
 });
 exports.createProgram = (0, catchAsync_utils_1.catchAsync)(async (req, res, next) => {
-    const { id } = req.params;
+    // const { id } = req.params;
     const { name, description, duration, eligibility } = req.body;
-    const program = await program_model_1.default.findById(id);
+    const program = await program_model_1.default.findOne({ name });
     if (program) {
         throw new ApiError_utils_1.ApiError("Program already exist", 404);
     }

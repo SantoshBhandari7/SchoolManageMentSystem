@@ -33,10 +33,10 @@ export const getProgramById = catchAsync(
 
 export const createProgram = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { id } = req.params;
+    // const { id } = req.params;
     const { name, description, duration, eligibility } = req.body;
 
-    const program = await Program.findById(id);
+    const program = await Program.findOne({ name });
     if (program) {
       throw new ApiError("Program already exist", 404);
     }
