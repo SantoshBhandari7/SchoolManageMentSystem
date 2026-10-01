@@ -23,8 +23,8 @@ export const createProgramSchema = z.object({
       .optional(),
 
     duration: z
-      .number()
-      .int("Duration must be a whole number")
+      .string()
+
       .min(1, "Duration must be at least 1 year")
       .max(10, "Duration cannot exceed 10 years"),
 
@@ -69,8 +69,8 @@ export const updateProgramSchema = z.object({
         .optional(),
 
       duration: z
-        .number()
-        .int("Duration must be a whole number")
+        .string()
+
         .min(1, "Duration must be at least 1 year")
         .max(10, "Duration cannot exceed 10 years")
         .optional(),

@@ -13,10 +13,11 @@ const subject_routes_1 = __importDefault(require("./routes/subject.routes"));
 const class_routes_1 = __importDefault(require("./routes/class.routes"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const ENV_CONFIG_1 = __importDefault(require("./config/ENV_CONFIG"));
+const program_routes_1 = __importDefault(require("./routes/program.routes"));
 const app = (0, express_1.default)();
-const allowedOrigins = ENV_CONFIG_1.default.allowedOrigins.split(",") ?? [];
+const allowed_origins = ENV_CONFIG_1.default.allowed_origins.split(",") ?? [];
 app.use((0, cors_1.default)({
-    origin: allowedOrigins,
+    origin: allowed_origins,
     credentials: true,
 }));
 app.use((0, cookie_parser_1.default)());
@@ -32,6 +33,7 @@ app.get("/", (req, res, next) => {
 app.use("/api/v1/auth", auth_routes_1.default);
 app.use("/api/v1/student", student_routes_1.default);
 app.use("/api/v1/teacher", teacher_routes_1.default);
+app.use("/api/v1/program", program_routes_1.default);
 app.use("/api/v1/subject", subject_routes_1.default);
 app.use("/api/v1/class", class_routes_1.default);
 app.use(errorHandler_middleware_1.errorHandler);

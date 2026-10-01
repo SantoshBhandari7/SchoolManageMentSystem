@@ -11,7 +11,7 @@ const programSchema = new mongoose.Schema(
       type: String,
     },
     duration: {
-      type: Number,
+      type: String,
       required: true,
     },
     eligibility: {
