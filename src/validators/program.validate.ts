@@ -11,13 +11,11 @@ export const createProgramSchema = z.object({
   body: z.object({
     name: z
       .string()
-      .trim()
       .min(2, "Program name must be at least 2 characters")
       .max(100, "Program name must not exceed 100 characters"),
 
     description: z
       .string()
-      .trim()
       .min(10, "Description must be at least 10 characters")
       .max(500, "Description must not exceed 500 characters")
       .optional(),
@@ -29,7 +27,6 @@ export const createProgramSchema = z.object({
 
     eligibility: z
       .string()
-      .trim()
       .min(2, "Eligibility must be at least 2 characters")
       .max(300, "Eligibility must not exceed 300 characters")
       .optional(),
