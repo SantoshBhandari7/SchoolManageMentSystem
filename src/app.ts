@@ -1,4 +1,5 @@
 import cors from "cors";
+import "dotenv/config";
 import express, { NextFunction, Request, Response } from "express";
 import { errorHandler } from "./Middlewares/errorHandler.middleware";
 import AuthRoutes from "./routes/auth.routes";
@@ -11,7 +12,7 @@ import Env_Config from "./config/ENV_CONFIG";
 import programRoutes from "./routes/program.routes";
 
 const app = express();
-const allowed_origins = Env_Config.allowed_origins.split(",") ?? [];
+const allowed_origins = process.env.ORIGINS?.split(",") ?? [];
 
 app.use(
   cors({

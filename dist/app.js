@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const cors_1 = __importDefault(require("cors"));
+require("dotenv/config");
 const express_1 = __importDefault(require("express"));
 const errorHandler_middleware_1 = require("./Middlewares/errorHandler.middleware");
 const auth_routes_1 = __importDefault(require("./routes/auth.routes"));
@@ -12,10 +13,9 @@ const teacher_routes_1 = __importDefault(require("./routes/teacher.routes"));
 const subject_routes_1 = __importDefault(require("./routes/subject.routes"));
 const class_routes_1 = __importDefault(require("./routes/class.routes"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
-const ENV_CONFIG_1 = __importDefault(require("./config/ENV_CONFIG"));
 const program_routes_1 = __importDefault(require("./routes/program.routes"));
 const app = (0, express_1.default)();
-const allowed_origins = ENV_CONFIG_1.default.allowed_origins.split(",") ?? [];
+const allowed_origins = process.env.ORIGINS?.split(",") ?? [];
 app.use((0, cors_1.default)({
     origin: allowed_origins,
     credentials: true,
