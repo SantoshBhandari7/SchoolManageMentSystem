@@ -36,7 +36,6 @@ export const createProgramSchema = z.object({
       .optional(),
   }),
 });
-
 export const getProgramsSchema = z.object({
   query: z.object({}).optional(),
 });
