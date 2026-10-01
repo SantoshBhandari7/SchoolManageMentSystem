@@ -7,7 +7,6 @@ import teacherRoutes from "./routes/teacher.routes";
 import subjectRoutes from "./routes/subject.routes";
 import classRoutes from "./routes/class.routes";
 import cookiesParser from "cookie-parser";
-import { ApiError } from "./utils/ApiError.utils";
 import Env_Config from "./config/ENV_CONFIG";
 import programRoutes from "./routes/program.routes";
 
