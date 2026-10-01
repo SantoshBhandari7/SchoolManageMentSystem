@@ -9,13 +9,14 @@ import classRoutes from "./routes/class.routes";
 import cookiesParser from "cookie-parser";
 import { ApiError } from "./utils/ApiError.utils";
 import Env_Config from "./config/ENV_CONFIG";
+import programRoutes from "./routes/program.routes";
 
 const app = express();
-const allowedOrigins = Env_Config.allowedOrigins.split(",") ?? [];
+const allowed_origins = Env_Config.allowed_origins.split(",") ?? [];
 
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: allowed_origins,
     credentials: true,
   }),
 );
@@ -35,6 +36,7 @@ app.get("/", (req: Request, res: Response, next: NextFunction) => {
 app.use("/api/v1/auth", AuthRoutes);
 app.use("/api/v1/student", studentRoutes);
 app.use("/api/v1/teacher", teacherRoutes);
+app.use("/api/v1/program", programRoutes);
 app.use("/api/v1/subject", subjectRoutes);
 app.use("/api/v1/class", classRoutes);
 
