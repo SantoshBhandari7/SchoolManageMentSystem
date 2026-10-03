@@ -34,11 +34,11 @@ app.get("/", (req: Request, res: Response, next: NextFunction) => {
 });
 
 app.use("/api/v1/auth", AuthRoutes);
-app.use("/api/v1/student", studentRoutes);
-app.use("/api/v1/teacher", teacherRoutes);
-app.use("/api/v1/program", programRoutes);
-app.use("/api/v1/subject", subjectRoutes);
-app.use("/api/v1/class", classRoutes);
+app.use("/api/v1/students", studentRoutes);
+app.use("/api/v1/teachers", teacherRoutes);
+app.use("/api/v1/programs", programRoutes);
+app.use("/api/v1/subjects", subjectRoutes);
+app.use("/api/v1/classes", classRoutes);
 
 app.use(errorHandler);
 export default app;
