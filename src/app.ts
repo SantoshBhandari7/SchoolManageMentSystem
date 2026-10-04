@@ -8,8 +8,8 @@ import teacherRoutes from "./routes/teacher.routes";
 import subjectRoutes from "./routes/subject.routes";
 import classRoutes from "./routes/class.routes";
 import cookiesParser from "cookie-parser";
-import Env_Config from "./config/ENV_CONFIG";
 import programRoutes from "./routes/program.routes";
+import contactRoutes from "./routes/contact.routes";
 
 const app = express();
 const allowed_origins = process.env.ORIGINS?.split(",") ?? [];
@@ -39,6 +39,7 @@ app.use("/api/v1/teachers", teacherRoutes);
 app.use("/api/v1/programs", programRoutes);
 app.use("/api/v1/subjects", subjectRoutes);
 app.use("/api/v1/classes", classRoutes);
+app.use("/api/v1/contacts", contactRoutes);
 
 app.use(errorHandler);
 export default app;
