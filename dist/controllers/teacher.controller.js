@@ -83,7 +83,14 @@ exports.createTeacher = (0, catchAsync_utils_1.catchAsync)(async (req, res, next
         throw new ApiError_utils_1.ApiError("Teacher already exists", 404);
     }
     const user = new user_model_1.default({ name, email, password, role: enum_types_1.Role.TEACHER });
-    const teacher = new teacher_model_1.default({ phone, subject, gender, salary, address });
+    const teacher = new teacher_model_1.default({
+        user: user._id,
+        phone,
+        subject,
+        gender,
+        salary,
+        address,
+    });
     const hashPass = await (0, bcrypt_utils_1.hash)(password);
     user.password = hashPass;
     if (profile_image) {

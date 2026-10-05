@@ -105,7 +105,14 @@ export const createTeacher = catchAsync(
     }
 
     const user = new User({ name, email, password, role: Role.TEACHER });
-    const teacher = new Teacher({ phone, subject, gender, salary, address });
+    const teacher = new Teacher({
+      user: user._id,
+      phone,
+      subject,
+      gender,
+      salary,
+      address,
+    });
 
     const hashPass = await hash(password);
     user.password = hashPass;
