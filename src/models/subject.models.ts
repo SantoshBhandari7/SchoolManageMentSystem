@@ -19,7 +19,6 @@ const subjectSchema = new mongoose.Schema(
     program: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "program",
-      required: true,
     },
     class: {
       type: mongoose.Schema.Types.ObjectId,

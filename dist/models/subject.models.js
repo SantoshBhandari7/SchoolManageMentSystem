@@ -22,7 +22,6 @@ const subjectSchema = new mongoose_1.default.Schema({
     program: {
         type: mongoose_1.default.Schema.Types.ObjectId,
         ref: "program",
-        required: true,
     },
     class: {
         type: mongoose_1.default.Schema.Types.ObjectId,

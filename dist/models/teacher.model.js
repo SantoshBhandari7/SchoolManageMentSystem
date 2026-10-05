@@ -10,6 +10,10 @@ const teacherSchema = new mongoose_1.default.Schema({
         type: mongoose_1.default.Schema.Types.ObjectId,
         ref: "user",
     },
+    profile_image: {
+        type: String,
+        required: true,
+    },
     phone: {
         type: String,
     },
