@@ -94,8 +94,17 @@ export const getTeacherById = catchAsync(
 
 export const createTeacher = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { name, email, password, gender, phone, subject, salary, address } =
-      req.body;
+    const {
+      name,
+      email,
+      password,
+      gender,
+      phone,
+      subject,
+      salary,
+      address,
+      experience,
+    } = req.body;
     const profile_image = req.file;
 
     const existTeacher = await User.findOne({ email });
@@ -112,6 +121,7 @@ export const createTeacher = catchAsync(
       gender,
       salary,
       address,
+      experience,
     });
 
     const hashPass = await hash(password);

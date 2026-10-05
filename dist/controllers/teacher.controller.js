@@ -76,7 +76,7 @@ exports.getTeacherById = (0, catchAsync_utils_1.catchAsync)(async (req, res, nex
     });
 });
 exports.createTeacher = (0, catchAsync_utils_1.catchAsync)(async (req, res, next) => {
-    const { name, email, password, gender, phone, subject, salary, address } = req.body;
+    const { name, email, password, gender, phone, subject, salary, address, experience, } = req.body;
     const profile_image = req.file;
     const existTeacher = await user_model_1.default.findOne({ email });
     if (existTeacher) {
@@ -90,6 +90,7 @@ exports.createTeacher = (0, catchAsync_utils_1.catchAsync)(async (req, res, next
         gender,
         salary,
         address,
+        experience,
     });
     const hashPass = await (0, bcrypt_utils_1.hash)(password);
     user.password = hashPass;
