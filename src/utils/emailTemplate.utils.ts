@@ -729,7 +729,7 @@ padding:20px;
 font-size:13px;
 ">
 
-© ${new Date().getFullYear()} Nepali Store<br>
+© ${new Date().getFullYear()} MKSH Academy<br>
 
 All Rights Reserved.
 
