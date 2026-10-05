@@ -586,7 +586,7 @@ Hello Admin,
 
 <p style="font-size:16px;color:#555;line-height:1.8;">
 You have received a new message from the contact form on
-<strong>Nepali Store</strong>.
+<strong>MKSH Academy</strong>.
 </p>
 
 <!-- Contact Details -->
@@ -710,7 +710,7 @@ Please review the customer's message and respond as soon as possible.
 
 Regards,<br>
 
-<strong>Nepali Store Team</strong>
+<strong>MKSH Academy Team</strong>
 
 </p>
 
