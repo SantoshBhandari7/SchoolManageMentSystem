@@ -10,7 +10,9 @@ const teacher_validator_1 = require("../validators/teacher.validator");
 const auth_middleware_1 = require("../Middlewares/auth.middleware");
 const enum_types_1 = require("../@types/enum.types");
 const router = express_1.default.Router();
-router.get("/", (0, auth_middleware_1.authenticate)([enum_types_1.Role.ADMIN]), (0, validator_middleware_1.validate)(teacher_validator_1.teacherSchema), teacher_controller_1.getAllTeacher);
+router.get("/", 
+// authenticate([Role.ADMIN]),
+(0, validator_middleware_1.validate)(teacher_validator_1.teacherSchema), teacher_controller_1.getAllTeacher);
 router.get("/:userId", (0, auth_middleware_1.authenticate)([enum_types_1.Role.ADMIN]), (0, validator_middleware_1.validate)(teacher_validator_1.getByIdTeacherSchema), teacher_controller_1.getTeacherById);
 router.post("/", 
 // authenticate([Role.ADMIN]),

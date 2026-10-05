@@ -21,7 +21,7 @@ const router = express.Router();
 
 router.get(
   "/",
-  authenticate([Role.ADMIN]),
+  // authenticate([Role.ADMIN]),
   validate(teacherSchema),
   getAllTeacher,
 );

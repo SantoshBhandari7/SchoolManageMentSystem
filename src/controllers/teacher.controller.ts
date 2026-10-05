@@ -118,8 +118,8 @@ export const createTeacher = catchAsync(
       };
     }
 
-    user.save();
-    teacher.save();
+    await user.save();
+    await teacher.save();
 
     sendResponse(res, {
       message: "Teacher is created",

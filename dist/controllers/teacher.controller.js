@@ -93,8 +93,8 @@ exports.createTeacher = (0, catchAsync_utils_1.catchAsync)(async (req, res, next
             public_id,
         };
     }
-    user.save();
-    teacher.save();
+    await user.save();
+    await teacher.save();
     (0, sendResponse_utils_1.sendResponse)(res, {
         message: "Teacher is created",
         data: {
