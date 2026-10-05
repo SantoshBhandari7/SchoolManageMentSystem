@@ -40,7 +40,7 @@ router.get(
 
 router.post(
   "/",
-  authenticate([Role.ADMIN]),
+  // authenticate([Role.ADMIN]),
   upload.single("profile_images"),
   validate(createStudentSchema),
   createStudent,

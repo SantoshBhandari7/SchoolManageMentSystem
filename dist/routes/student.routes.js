@@ -15,7 +15,9 @@ const upload = (0, multer_middleware_1.uploader)();
 const router = express_1.default.Router();
 router.get("/", (0, auth_middleware_1.authenticate)([enum_types_1.Role.ADMIN, enum_types_1.Role.TEACHER]), (0, validator_middleware_1.validate)(student_validator_1.studentSchema), student_controller_1.getStudent);
 router.get("/:userId", (0, auth_middleware_1.authenticate)([enum_types_1.Role.ADMIN, enum_types_1.Role.TEACHER]), (0, validator_middleware_1.validate)(student_validator_1.getByIdStudentSchema), student_controller_1.getStudentById);
-router.post("/", (0, auth_middleware_1.authenticate)([enum_types_1.Role.ADMIN]), upload.single("profile_images"), (0, validator_middleware_1.validate)(student_validator_1.createStudentSchema), student_controller_1.createStudent);
+router.post("/", 
+// authenticate([Role.ADMIN]),
+upload.single("profile_images"), (0, validator_middleware_1.validate)(student_validator_1.createStudentSchema), student_controller_1.createStudent);
 router.put("/:userId", (0, auth_middleware_1.authenticate)([enum_types_1.Role.ADMIN, enum_types_1.Role.STUDENT]), (0, validator_middleware_1.validate)(student_validator_1.updateStudentSchema), student_controller_1.updateStudent);
 router.delete("/:userId", (0, auth_middleware_1.authenticate)([enum_types_1.Role.ADMIN]), (0, validator_middleware_1.validate)(student_validator_1.deleteStudentSchema), student_controller_1.deleteStudent);
 exports.default = router;

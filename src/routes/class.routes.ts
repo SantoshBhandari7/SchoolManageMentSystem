@@ -35,7 +35,7 @@ router.get(
 
 router.post(
   "/",
-  authenticate([Role.ADMIN]),
+  // authenticate([Role.ADMIN]),
   validate(createClassSchema),
   createClass,
 );
