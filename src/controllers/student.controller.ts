@@ -102,15 +102,12 @@ export const createStudent = catchAsync(
       parentPhone,
     } = req.body;
     const profile_image = req.file;
-    const { classname } = req.body;
+    const { classId } = req.body;
 
     const existStudent = await User.findOne({ email: email }).select(
       "-password",
     );
-    const existClass = await Class.findOne({ classname }).populate(
-      "class",
-      "name",
-    );
+    const existClass = await Class.findOne({ classId });
 
     if (!existClass) {
       throw new ApiError("Class is not found", 404);
@@ -123,7 +120,7 @@ export const createStudent = catchAsync(
 
     const student = new Student({
       user: user._id,
-      class: existClass._id,
+      classId: existClass._id,
       gender,
       address,
       roll_no,
