@@ -13,7 +13,9 @@ const enum_types_1 = require("../@types/enum.types");
 // import { upload } from "../utils/cloudinary.utils";
 const upload = (0, multer_middleware_1.uploader)();
 const router = express_1.default.Router();
-router.get("/", (0, auth_middleware_1.authenticate)([enum_types_1.Role.ADMIN, enum_types_1.Role.TEACHER]), (0, validator_middleware_1.validate)(student_validator_1.studentSchema), student_controller_1.getStudent);
+router.get("/", 
+// authenticate([Role.ADMIN, Role.TEACHER]),
+(0, validator_middleware_1.validate)(student_validator_1.studentSchema), student_controller_1.getStudent);
 router.get("/:userId", (0, auth_middleware_1.authenticate)([enum_types_1.Role.ADMIN, enum_types_1.Role.TEACHER]), (0, validator_middleware_1.validate)(student_validator_1.getByIdStudentSchema), student_controller_1.getStudentById);
 router.post("/", 
 // authenticate([Role.ADMIN]),
