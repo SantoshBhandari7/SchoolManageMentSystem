@@ -41,6 +41,9 @@ export const getAllSubject = catchAsync(
     }
 
     const subjects = await Subject.find(filter)
+      .populate("teacher", "name")
+      .populate("program", "name")
+      .populate("class", "classname")
       .limit(perPage)
       .skip(skip)
       .sort({
