@@ -8,17 +8,20 @@ const studentSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
-      requires: true,
+      required: true,
     },
     profile_image: {
       type: imageSchema,
+      required: true,
     },
     gender: {
       type: String,
       enum: Gender,
+      required: true,
     },
     address: {
       type: String,
+      required: true,
     },
     roll_no: {
       type: Number,
@@ -27,13 +30,14 @@ const studentSchema = new mongoose.Schema(
     class: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "class",
+      required: true,
     },
     parentName: {
       type: String,
       required: true,
     },
     parentPhone: {
-      type: Number,
+      type: String,
     },
   },
   { timestamps: true },

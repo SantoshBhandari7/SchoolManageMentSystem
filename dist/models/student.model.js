@@ -10,17 +10,20 @@ const studentSchema = new mongoose_1.default.Schema({
     user: {
         type: mongoose_1.default.Schema.Types.ObjectId,
         ref: "user",
-        requires: true,
+        required: true,
     },
     profile_image: {
         type: image_model_1.imageSchema,
+        required: true,
     },
     gender: {
         type: String,
         enum: enum_types_1.Gender,
+        required: true,
     },
     address: {
         type: String,
+        required: true,
     },
     roll_no: {
         type: Number,
@@ -29,13 +32,14 @@ const studentSchema = new mongoose_1.default.Schema({
     class: {
         type: mongoose_1.default.Schema.Types.ObjectId,
         ref: "class",
+        required: true,
     },
     parentName: {
         type: String,
         required: true,
     },
     parentPhone: {
-        type: Number,
+        type: String,
     },
 }, { timestamps: true });
 const Student = mongoose_1.default.model("student", studentSchema);
