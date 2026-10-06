@@ -10,55 +10,50 @@ const sendResponse_utils_1 = require("../utils/sendResponse.utils");
 const ApiError_utils_1 = require("../utils/ApiError.utils");
 const teacher_model_1 = __importDefault(require("../models/teacher.model"));
 const class_models_1 = __importDefault(require("../models/class.models"));
+const withPagination_utils_1 = require("../utils/withPagination.utils");
 exports.getAllSubject = (0, catchAsync_utils_1.catchAsync)(async (req, res, next) => {
-    // const {
-    //   query,
-    //   order = "DESC",
-    //   sortBy = "createdAt",
-    //   page = 1,
-    //   limit = 10,
-    // } = req.query;
-    // const perPage = Number(limit);
-    // const currentPage = Number(page);
-    // const skip = perPage * (currentPage - 1);
+    const { query, order = "DESC", sortBy = "createdAt", page = 1, limit = 10, } = req.query;
+    const perPage = Number(limit);
+    const currentPage = Number(page);
+    const skip = perPage * (currentPage - 1);
     const filter = {};
-    // if (query) {
-    //   filter.$or = [
-    //     {
-    //       subjectname: {
-    //         $regex: query,
-    //         $options: "i",
-    //       },
-    //     },
-    //     {
-    //       credithour: {
-    //         $regex: query,
-    //         $options: "i",
-    //       },
-    //     },
-    //   ];
-    // }
-    const subjects = await subject_models_1.default.find(filter);
-    // .populate({
-    //   path: "teacher",
-    //   populate: {
-    //     path: "user",
-    //     select: "name",
-    //   },
-    // })
-    // .populate("program", "name")
-    // .populate("class", "classname")
-    // .limit(perPage)
-    // .skip(skip)
-    // .sort({
-    //   [sortBy as string]: order === "DESC" ? -1 : 1,
-    // });
-    // const total_count = await Subject.countDocuments(filter);
+    if (query) {
+        filter.$or = [
+            {
+                subjectname: {
+                    $regex: query,
+                    $options: "i",
+                },
+            },
+            {
+                credithour: {
+                    $regex: query,
+                    $options: "i",
+                },
+            },
+        ];
+    }
+    const subjects = await subject_models_1.default.find(filter)
+        .populate({
+        path: "teacher",
+        populate: {
+            path: "user",
+            select: "name",
+        },
+    })
+        .populate("program", "name")
+        .populate("class", "classname")
+        .limit(perPage)
+        .skip(skip)
+        .sort({
+        [sortBy]: order === "DESC" ? -1 : 1,
+    });
+    const total_count = await subject_models_1.default.countDocuments(filter);
     (0, sendResponse_utils_1.sendResponse)(res, {
         message: "All Subjects fetch",
         data: {
             subjects,
-            // pagination: getPagination(total_count, perPage, currentPage),
+            pagination: (0, withPagination_utils_1.getPagination)(total_count, perPage, currentPage),
         },
         statusCode: 200,
     });
