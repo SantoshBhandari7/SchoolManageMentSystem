@@ -24,9 +24,11 @@ exports.getAllSubject = (0, catchAsync_utils_1.catchAsync)(async (req, res, next
                     $regex: query,
                     $options: "i",
                 },
+            },
+            {
                 credithour: {
                     $regex: query,
-                    $option: "i",
+                    $options: "i",
                 },
             },
         ];

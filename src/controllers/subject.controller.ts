@@ -31,10 +31,11 @@ export const getAllSubject = catchAsync(
             $regex: query,
             $options: "i",
           },
-
+        },
+        {
           credithour: {
             $regex: query,
-            $option: "i",
+            $options: "i",
           },
         },
       ];
