@@ -40,6 +40,13 @@ export const getAllClass = catchAsync(
     }
 
     const classRecord = await Class.find(filter)
+      .populate({
+        path: "teacher",
+        populate: {
+          path: "subject",
+          select: "subjectname",
+        },
+      })
       .limit(perPage)
       .skip(skip)
       .sort({ [sortBy as string]: order === "DESC" ? -1 : 1 });

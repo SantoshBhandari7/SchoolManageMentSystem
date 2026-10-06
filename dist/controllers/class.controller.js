@@ -33,6 +33,13 @@ exports.getAllClass = (0, catchAsync_utils_1.catchAsync)(async (req, res, next) 
         ];
     }
     const classRecord = await class_models_1.default.find(filter)
+        .populate({
+        path: "teacher",
+        populate: {
+            path: "subject",
+            select: "subjectname",
+        },
+    })
         .limit(perPage)
         .skip(skip)
         .sort({ [sortBy]: order === "DESC" ? -1 : 1 });
