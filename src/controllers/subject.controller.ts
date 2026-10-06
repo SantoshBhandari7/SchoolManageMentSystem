@@ -10,60 +10,60 @@ import { getPagination } from "../utils/withPagination.utils";
 
 export const getAllSubject = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const {
-      query,
-      order = "DESC",
-      sortBy = "createdAt",
-      page = 1,
-      limit = 10,
-    } = req.query;
+    // const {
+    //   query,
+    //   order = "DESC",
+    //   sortBy = "createdAt",
+    //   page = 1,
+    //   limit = 10,
+    // } = req.query;
 
-    const perPage = Number(limit);
-    const currentPage = Number(page);
-    const skip = perPage * (currentPage - 1);
+    // const perPage = Number(limit);
+    // const currentPage = Number(page);
+    // const skip = perPage * (currentPage - 1);
 
     const filter: any = {};
 
-    if (query) {
-      filter.$or = [
-        {
-          subjectname: {
-            $regex: query,
-            $options: "i",
-          },
-        },
-        {
-          credithour: {
-            $regex: query,
-            $options: "i",
-          },
-        },
-      ];
-    }
+    // if (query) {
+    //   filter.$or = [
+    //     {
+    //       subjectname: {
+    //         $regex: query,
+    //         $options: "i",
+    //       },
+    //     },
+    //     {
+    //       credithour: {
+    //         $regex: query,
+    //         $options: "i",
+    //       },
+    //     },
+    //   ];
+    // }
 
-    const subjects = await Subject.find(filter)
-      .populate({
-        path: "teacher",
-        populate: {
-          path: "user",
-          select: "name",
-        },
-      })
-      .populate("program", "name")
-      .populate("class", "classname")
-      .limit(perPage)
-      .skip(skip)
-      .sort({
-        [sortBy as string]: order === "DESC" ? -1 : 1,
-      });
+    const subjects = await Subject.find(filter);
+    // .populate({
+    //   path: "teacher",
+    //   populate: {
+    //     path: "user",
+    //     select: "name",
+    //   },
+    // })
+    // .populate("program", "name")
+    // .populate("class", "classname")
+    // .limit(perPage)
+    // .skip(skip)
+    // .sort({
+    //   [sortBy as string]: order === "DESC" ? -1 : 1,
+    // });
 
-    const total_count = await Subject.countDocuments(filter);
+    // const total_count = await Subject.countDocuments(filter);
 
     sendResponse(res, {
       message: "All Subjects fetch",
       data: {
         subjects,
-        pagination: getPagination(total_count, perPage, currentPage),
+        // pagination: getPagination(total_count, perPage, currentPage),
       },
       statusCode: 200,
     });
