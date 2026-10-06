@@ -80,9 +80,9 @@ export const getSubjectById = catchAsync(
 
 export const createSubject = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { subjectName, creditHour, teacherId, classId } = req.body;
+    const { subjectname, credithour, teacherId, classId } = req.body;
 
-    const existSubject = await Subject.findOne({ subjectName });
+    const existSubject = await Subject.findOne({ subjectname });
     // const existTeacher = await Teacher.findById(teacherId);
     // const existClass = await Class.findById(classId);
 
@@ -98,8 +98,8 @@ export const createSubject = catchAsync(
     // }
 
     const subject = new Subject({
-      subjectName,
-      creditHour,
+      subjectname,
+      credithour,
       teacher: teacherId,
       class: classId,
     });

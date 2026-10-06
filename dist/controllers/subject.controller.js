@@ -60,8 +60,8 @@ exports.getSubjectById = (0, catchAsync_utils_1.catchAsync)(async (req, res, nex
     });
 });
 exports.createSubject = (0, catchAsync_utils_1.catchAsync)(async (req, res, next) => {
-    const { subjectName, creditHour, teacherId, classId } = req.body;
-    const existSubject = await subject_models_1.default.findOne({ subjectName });
+    const { subjectname, credithour, teacherId, classId } = req.body;
+    const existSubject = await subject_models_1.default.findOne({ subjectname });
     // const existTeacher = await Teacher.findById(teacherId);
     // const existClass = await Class.findById(classId);
     if (existSubject) {
@@ -74,8 +74,8 @@ exports.createSubject = (0, catchAsync_utils_1.catchAsync)(async (req, res, next
     //   throw new ApiError("Class is not assign", 404);
     // }
     const subject = new subject_models_1.default({
-        subjectName,
-        creditHour,
+        subjectname,
+        credithour,
         teacher: teacherId,
         class: classId,
     });
