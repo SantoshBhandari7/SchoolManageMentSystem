@@ -20,7 +20,7 @@ exports.getAllSubject = (0, catchAsync_utils_1.catchAsync)(async (req, res, next
     if (query) {
         filter.$or = [
             {
-                name: {
+                subjectname: {
                     $regex: query,
                     $options: "i",
                 },

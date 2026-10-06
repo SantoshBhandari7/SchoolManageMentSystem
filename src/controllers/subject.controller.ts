@@ -27,7 +27,7 @@ export const getAllSubject = catchAsync(
     if (query) {
       filter.$or = [
         {
-          name: {
+          subjectname: {
             $regex: query,
             $options: "i",
           },
