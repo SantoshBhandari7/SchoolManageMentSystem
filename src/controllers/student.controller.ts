@@ -107,11 +107,11 @@ export const createStudent = catchAsync(
     const existStudent = await User.findOne({ email: email }).select(
       "-password",
     );
-    // const existClass = await Class.findOne({ classname });
+    const existClass = await Class.findOne({ classname });
 
-    // if (!existClass) {
-    //   throw new ApiError("Class is not found", 404);
-    // }
+    if (!existClass) {
+      throw new ApiError("Class is not found", 404);
+    }
     if (existStudent) {
       throw new ApiError("student is already exist", 404);
     }
@@ -120,7 +120,7 @@ export const createStudent = catchAsync(
 
     const student = new Student({
       user: user._id,
-      // class: existClass._id,
+      class: existClass._id,
       gender,
       address,
       roll_no,

@@ -12,6 +12,7 @@ const user_model_1 = __importDefault(require("../models/user.model"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const bcrypt_utils_1 = require("../utils/bcrypt.utils");
 const enum_types_1 = require("../@types/enum.types");
+const class_models_1 = __importDefault(require("../models/class.models"));
 const cloudinary_utils_1 = require("../utils/cloudinary.utils");
 const withPagination_utils_1 = require("../utils/withPagination.utils");
 const uploader = "/profiles";
@@ -76,17 +77,17 @@ exports.createStudent = (0, catchAsync_utils_1.catchAsync)(async (req, res, next
     const profile_image = req.file;
     const { classname } = req.body;
     const existStudent = await user_model_1.default.findOne({ email: email }).select("-password");
-    // const existClass = await Class.findOne({ classname });
-    // if (!existClass) {
-    //   throw new ApiError("Class is not found", 404);
-    // }
+    const existClass = await class_models_1.default.findOne({ classname });
+    if (!existClass) {
+        throw new ApiError_utils_1.ApiError("Class is not found", 404);
+    }
     if (existStudent) {
         throw new ApiError_utils_1.ApiError("student is already exist", 404);
     }
     const user = new user_model_1.default({ name, email, password, role: enum_types_1.Role.STUDENT });
     const student = new student_model_1.default({
         user: user._id,
-        // class: existClass._id,
+        class: existClass._id,
         gender,
         address,
         roll_no,
