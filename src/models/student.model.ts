@@ -22,6 +22,7 @@ const studentSchema = new mongoose.Schema(
     },
     roll_no: {
       type: Number,
+      required: true,
     },
     class: {
       type: mongoose.Schema.Types.ObjectId,
