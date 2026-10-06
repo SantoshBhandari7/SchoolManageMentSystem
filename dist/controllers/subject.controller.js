@@ -71,7 +71,7 @@ exports.getSubjectById = (0, catchAsync_utils_1.catchAsync)(async (req, res, nex
     });
 });
 exports.createSubject = (0, catchAsync_utils_1.catchAsync)(async (req, res, next) => {
-    const { subjectname, credithour, teacherId, classId } = req.body;
+    const { subjectname, credithour, teacherId, classId, programId } = req.body;
     const existSubject = await subject_models_1.default.findOne({ subjectname });
     // const existTeacher = await Teacher.findById(teacherId);
     // const existClass = await Class.findById(classId);
@@ -89,6 +89,7 @@ exports.createSubject = (0, catchAsync_utils_1.catchAsync)(async (req, res, next
         credithour,
         teacher: teacherId,
         class: classId,
+        program: programId,
     });
     await subject.save();
     (0, sendResponse_utils_1.sendResponse)(res, {
