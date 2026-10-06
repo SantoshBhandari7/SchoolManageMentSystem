@@ -31,6 +31,13 @@ exports.createSubjectSchema = zod_1.default.object({
                 : "teacher id must be in string",
         })
             .refine((id) => mongoose_1.default.Types.ObjectId.isValid(id), "teacher id is invalid"),
+        programId: zod_1.default
+            .string({
+            error: (issue) => issue.input === null
+                ? "program is required"
+                : "program id must be in string",
+        })
+            .refine((id) => mongoose_1.default.Types.ObjectId.isValid(id), "program id is invalid"),
         classId: zod_1.default
             .string({
             error: "classId must be string",

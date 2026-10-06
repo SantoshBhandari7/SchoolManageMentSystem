@@ -12,7 +12,6 @@ export const createSubjectSchema = z.object({
       })
       .min(4, "subjectname atleast 4 character long")
       .max(100, "subjectname should not be exceed than 100 character long"),
-
     credithour: z.coerce
       .number({
         error: (issue) =>
@@ -22,7 +21,6 @@ export const createSubjectSchema = z.object({
       })
       .int("number should be in interger")
       .positive("credit our must be greater than 0"),
-
     teacherId: z
       .string({
         error: (issue) =>
