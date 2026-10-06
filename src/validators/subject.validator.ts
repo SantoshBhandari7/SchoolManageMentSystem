@@ -34,6 +34,17 @@ export const createSubjectSchema = z.object({
         (id) => mongoose.Types.ObjectId.isValid(id),
         "teacher id is invalid",
       ),
+    programId: z
+      .string({
+        error: (issue) =>
+          issue.input === null
+            ? "program is required"
+            : "program id must be in string",
+      })
+      .refine(
+        (id) => mongoose.Types.ObjectId.isValid(id),
+        "program id is invalid",
+      ),
 
     classId: z
       .string({
