@@ -77,7 +77,7 @@ exports.createStudent = (0, catchAsync_utils_1.catchAsync)(async (req, res, next
     const profile_image = req.file;
     const { classname } = req.body;
     const existStudent = await user_model_1.default.findOne({ email: email }).select("-password");
-    const existClass = await class_models_1.default.findOne({ classname });
+    const existClass = await class_models_1.default.findOne({ classname }).populate("class", "name");
     if (!existClass) {
         throw new ApiError_utils_1.ApiError("Class is not found", 404);
     }
