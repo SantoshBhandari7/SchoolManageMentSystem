@@ -32,7 +32,13 @@ exports.getAllSubject = (0, catchAsync_utils_1.catchAsync)(async (req, res, next
         ];
     }
     const subjects = await subject_models_1.default.find(filter)
-        .populate("teacher", "name")
+        .populate({
+        path: "teacher",
+        populate: {
+            path: "user",
+            select: "name",
+        },
+    })
         .populate("program", "name")
         .populate("class", "classname")
         .limit(perPage)

@@ -41,7 +41,13 @@ export const getAllSubject = catchAsync(
     }
 
     const subjects = await Subject.find(filter)
-      .populate("teacher", "name")
+      .populate({
+        path: "teacher",
+        populate: {
+          path: "user",
+          select: "name",
+        },
+      })
       .populate("program", "name")
       .populate("class", "classname")
       .limit(perPage)
