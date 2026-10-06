@@ -16,7 +16,7 @@ const subjectSchema = new mongoose.Schema(
       ref: "teacher",
       required: true,
     },
-    programId: {
+    program: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "program",
       required: true,

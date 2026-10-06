@@ -19,7 +19,7 @@ const subjectSchema = new mongoose_1.default.Schema({
         ref: "teacher",
         required: true,
     },
-    programId: {
+    program: {
         type: mongoose_1.default.Schema.Types.ObjectId,
         ref: "program",
         required: true,
