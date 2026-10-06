@@ -36,8 +36,8 @@ exports.getAllClass = (0, catchAsync_utils_1.catchAsync)(async (req, res, next) 
         .populate({
         path: "teacher",
         populate: {
-            path: "subject",
-            select: "subjectname",
+            path: "user",
+            select: "name",
         },
     })
         .limit(perPage)

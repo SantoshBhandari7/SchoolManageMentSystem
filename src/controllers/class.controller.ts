@@ -43,8 +43,8 @@ export const getAllClass = catchAsync(
       .populate({
         path: "teacher",
         populate: {
-          path: "subject",
-          select: "subjectname",
+          path: "user",
+          select: "name",
         },
       })
       .limit(perPage)
