@@ -5,11 +5,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const enum_types_1 = require("../@types/enum.types");
+const image_model_1 = require("./image.model");
 const studentSchema = new mongoose_1.default.Schema({
     user: {
         type: mongoose_1.default.Schema.Types.ObjectId,
         ref: "user",
         requires: true,
+    },
+    profile_image: {
+        type: image_model_1.imageSchema,
     },
     gender: {
         type: String,

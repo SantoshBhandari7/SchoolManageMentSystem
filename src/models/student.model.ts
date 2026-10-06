@@ -1,6 +1,7 @@
 import mongoose, { mongo } from "mongoose";
 import { Gender } from "../@types/enum.types";
 import { required } from "zod/mini";
+import { imageSchema } from "./image.model";
 
 const studentSchema = new mongoose.Schema(
   {
@@ -8,6 +9,9 @@ const studentSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
       requires: true,
+    },
+    profile_image: {
+      type: imageSchema,
     },
     gender: {
       type: String,

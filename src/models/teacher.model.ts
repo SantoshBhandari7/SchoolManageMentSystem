@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { Gender, Role } from "../@types/enum.types";
+import { imageSchema } from "./image.model";
 
 const teacherSchema = new mongoose.Schema(
   {
@@ -8,8 +9,7 @@ const teacherSchema = new mongoose.Schema(
       ref: "user",
     },
     profile_image: {
-      type: String,
-      required: true,
+      type: imageSchema,
     },
     phone: {
       type: String,
