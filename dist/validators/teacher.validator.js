@@ -34,7 +34,9 @@ exports.createTeacherSchema = zod_1.default.object({
         })
             .optional(),
         subject: zod_1.default.string({
-            error: "subject must be string",
+            error: (issue) => issue.input === undefined
+                ? "Subject is required"
+                : "Subject must be string",
         }),
         salary: zod_1.default.coerce
             .number({

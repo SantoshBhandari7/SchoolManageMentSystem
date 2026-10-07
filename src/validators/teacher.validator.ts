@@ -35,8 +35,12 @@ export const createTeacherSchema = z.object({
       .optional(),
 
     subject: z.string({
-      error: "subject must be string",
+      error: (issue) =>
+        issue.input === undefined
+          ? "Subject is required"
+          : "Subject must be string",
     }),
+
     salary: z.coerce
       .number({
         error: "salary must be in number",
