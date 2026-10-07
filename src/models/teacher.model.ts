@@ -7,6 +7,7 @@ const teacherSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
+      required: true,
     },
     profile_image: {
       type: imageSchema,
@@ -24,6 +25,7 @@ const teacherSchema = new mongoose.Schema(
     },
     subject: {
       type: String,
+      required: true,
     },
     salary: {
       type: Number,
