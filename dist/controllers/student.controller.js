@@ -76,8 +76,11 @@ exports.createStudent = (0, catchAsync_utils_1.catchAsync)(async (req, res, next
     const { name, email, password, role, gender, roll_no, address, parentName, parentPhone, } = req.body;
     const profile_image = req.file;
     const { classId } = req.body;
+    // console.log("REQ BODY:", req.body);
+    // console.log("CLASS ID:", classId);
+    // console.log("CLASS ID TYPE:", typeof classId);
     const existStudent = await user_model_1.default.findOne({ email: email }).select("-password");
-    const existClass = await class_models_1.default.findById({ classId });
+    const existClass = await class_models_1.default.findById(classId);
     if (!existClass) {
         throw new ApiError_utils_1.ApiError("Class is not found", 404);
     }
@@ -103,9 +106,6 @@ exports.createStudent = (0, catchAsync_utils_1.catchAsync)(async (req, res, next
             public_id,
         };
     }
-    console.log("REQ BODY:", req.body);
-    console.log("CLASS ID:", classId);
-    console.log("CLASS ID TYPE:", typeof classId);
     await user.save();
     await student.save();
     (0, sendResponse_utils_1.sendResponse)(res, {

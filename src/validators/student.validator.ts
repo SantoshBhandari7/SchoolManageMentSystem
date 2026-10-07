@@ -79,6 +79,19 @@ export const createStudentSchema = z.object({
       })
       .regex(/^\d{10}$/, "phone number should be exact 10")
       .optional(),
+
+    file: z
+      .object({
+        fieldname: z.string(),
+        originalname: z.string(),
+        encoding: z.string(),
+        mimetype: z.string(),
+        size: z.number(),
+      })
+      .refine(
+        (file) => file.fieldname === "profile_image",
+        "Profile image is required",
+      ),
   }),
 });
 

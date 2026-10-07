@@ -70,6 +70,15 @@ exports.createStudentSchema = zod_1.default.object({
         })
             .regex(/^\d{10}$/, "phone number should be exact 10")
             .optional(),
+        file: zod_1.default
+            .object({
+            fieldname: zod_1.default.string(),
+            originalname: zod_1.default.string(),
+            encoding: zod_1.default.string(),
+            mimetype: zod_1.default.string(),
+            size: zod_1.default.number(),
+        })
+            .refine((file) => file.fieldname === "profile_image", "Profile image is required"),
     }),
 });
 exports.updateStudentSchema = zod_1.default.object({

@@ -103,12 +103,15 @@ export const createStudent = catchAsync(
     } = req.body;
     const profile_image = req.file;
     const { classId } = req.body;
+    // console.log("REQ BODY:", req.body);
+    // console.log("CLASS ID:", classId);
+    // console.log("CLASS ID TYPE:", typeof classId);
 
     const existStudent = await User.findOne({ email: email }).select(
       "-password",
     );
 
-    const existClass = await Class.findById({ classId });
+    const existClass = await Class.findById(classId);
 
     if (!existClass) {
       throw new ApiError("Class is not found", 404);
@@ -139,9 +142,6 @@ export const createStudent = catchAsync(
         public_id,
       };
     }
-    console.log("REQ BODY:", req.body);
-    console.log("CLASS ID:", classId);
-    console.log("CLASS ID TYPE:", typeof classId);
 
     await user.save();
     await student.save();
