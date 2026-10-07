@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.teacherSchema = exports.getByIdTeacherSchema = exports.deleteTeacherSchema = exports.updateTeacherSchema = exports.createTeacherSchema = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const zod_1 = __importDefault(require("zod"));
+const enum_types_1 = require("../@types/enum.types");
 exports.createTeacherSchema = zod_1.default.object({
     body: zod_1.default.object({
         name: zod_1.default
@@ -26,7 +27,7 @@ exports.createTeacherSchema = zod_1.default.object({
                 ? "email is required"
                 : "Invalid email format",
         }),
-        // gender: z.enum(Gender, { error: "gender must be valid" }).optional(),
+        gender: zod_1.default.enum(enum_types_1.Gender, { error: "gender must be valid" }).optional(),
         address: zod_1.default
             .string({
             error: "address must be string",
@@ -41,7 +42,9 @@ exports.createTeacherSchema = zod_1.default.object({
         })
             .positive("salary must be positive"),
         experience: zod_1.default.coerce.number({
-            error: "experiance must be number",
+            error: (issue) => issue.input === undefined
+                ? "experience is required"
+                : "Experience must be number",
         }),
         phone: zod_1.default
             .string({
@@ -84,11 +87,11 @@ exports.updateTeacherSchema = zod_1.default.object({
             .regex(/^9\d{9}$/, "parentPhone must contain exactly 10 digits")
             .optional(),
     }),
-    experiance: zod_1.default.coerce
+    experience: zod_1.default.coerce
         .number({
-        error: "experiance should be number",
+        error: "experience should be number",
     })
-        .positive("experiance must be positive")
+        .positive("experience must be positive")
         .optional(),
     params: zod_1.default.object({
         userId: zod_1.default

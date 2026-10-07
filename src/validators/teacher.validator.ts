@@ -26,7 +26,7 @@ export const createTeacherSchema = z.object({
           ? "email is required"
           : "Invalid email format",
     }),
-    // gender: z.enum(Gender, { error: "gender must be valid" }).optional(),
+    gender: z.enum(Gender, { error: "gender must be valid" }).optional(),
 
     address: z
       .string({
@@ -44,7 +44,10 @@ export const createTeacherSchema = z.object({
       .positive("salary must be positive"),
 
     experience: z.coerce.number({
-      error: "experiance must be number",
+      error: (issue) =>
+        issue.input === undefined
+          ? "experience is required"
+          : "Experience must be number",
     }),
 
     phone: z
@@ -94,11 +97,11 @@ export const updateTeacherSchema = z.object({
       .optional(),
   }),
 
-  experiance: z.coerce
+  experience: z.coerce
     .number({
-      error: "experiance should be number",
+      error: "experience should be number",
     })
-    .positive("experiance must be positive")
+    .positive("experience must be positive")
     .optional(),
 
   params: z.object({
