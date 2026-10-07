@@ -139,6 +139,9 @@ export const createStudent = catchAsync(
         public_id,
       };
     }
+    console.log("REQ BODY:", req.body);
+    console.log("CLASS ID:", classId);
+    console.log("CLASS ID TYPE:", typeof classId);
 
     await user.save();
     await student.save();
