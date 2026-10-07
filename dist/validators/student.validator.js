@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.studentSchema = exports.getByIdStudentSchema = exports.deleteStudentSchema = exports.updateStudentSchema = exports.createStudentSchema = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const zod_1 = __importDefault(require("zod"));
+const enum_types_1 = require("../@types/enum.types");
 exports.createStudentSchema = zod_1.default.object({
     body: zod_1.default.object({
         // user:z
@@ -32,33 +33,37 @@ exports.createStudentSchema = zod_1.default.object({
                 ? "email is required"
                 : "Invalid email format",
         }),
-        // gender: z.enum(Gender, { error: "gender must be valid" }).optional(),
-        address: zod_1.default
-            .string({
-            error: "address must be string",
-        })
-            .optional(),
-        rollno: zod_1.default.coerce
+        gender: zod_1.default.enum(enum_types_1.Gender, {
+            error: (issue) => {
+                return issue.input === undefined
+                    ? "Gender is required"
+                    : "Gender must be valid";
+            },
+        }),
+        address: zod_1.default.string({
+            error: (issue) => issue.input === null ? "address is required" : "address must be string",
+        }),
+        roll_no: zod_1.default.coerce
             .number({
-            error: "roll no must be number",
+            error: (issue) => issue.input === null
+                ? "roll_no is required"
+                : "roll_no must be number",
         })
-            .int("rollno should be integer")
-            .positive("rollnumber should be positive")
-            .optional(),
-        // class: z
-        //   .string({
-        //     error: (issue) =>
-        //       issue.input === null ? "class is required" : "class must be string",
-        //   })
-        //   .refine((id) => mongoose.Types.ObjectId.isValid(id), "invalid class id"),
+            .int("roll_no should be integer")
+            .positive("roll_n0 should be positive"),
+        classId: zod_1.default
+            .string({
+            error: (issue) => issue.input === null ? "class is required" : "class must be string",
+        })
+            .refine((id) => mongoose_1.default.Types.ObjectId.isValid(id), "invalid class id"),
         parentName: zod_1.default
             .string({
             error: (issue) => issue.input === null
                 ? "parentName is required"
                 : "parentName must be string",
         })
-            .min(3, "parent name atleast 3 character")
-            .max(10, "parent name shouldnot exceeds than 100 characters"),
+            .min(3, "parent name at least 3 character")
+            .max(10, "parent name should not exceeds than 100 characters"),
         parentPhone: zod_1.default
             .string({
             error: "parent name must be string",
@@ -87,12 +92,12 @@ exports.updateStudentSchema = zod_1.default.object({
         })
             .trim()
             .optional(),
-        rollno: zod_1.default.coerce
+        roll_no: zod_1.default.coerce
             .number({
             error: "rollno must be number",
         })
-            .int("rollno must be an integer")
-            .positive("rollno must be greater than 0")
+            .int("roll_no must be an integer")
+            .positive("roll_no must be greater than 0")
             .optional(),
         parentPhone: zod_1.default
             .string({

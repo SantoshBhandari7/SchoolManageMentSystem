@@ -33,28 +33,35 @@ export const createStudentSchema = z.object({
           : "Invalid email format",
     }),
 
-    // gender: z.enum(Gender, { error: "gender must be valid" }).optional(),
+    gender: z.enum(Gender, {
+      error: (issue) => {
+        return issue.input === undefined
+          ? "Gender is required"
+          : "Gender must be valid";
+      },
+    }),
 
-    address: z
-      .string({
-        error: "address must be string",
-      })
-      .optional(),
+    address: z.string({
+      error: (issue) =>
+        issue.input === null ? "address is required" : "address must be string",
+    }),
 
-    rollno: z.coerce
+    roll_no: z.coerce
       .number({
-        error: "roll no must be number",
+        error: (issue) =>
+          issue.input === null
+            ? "roll_no is required"
+            : "roll_no must be number",
       })
-      .int("rollno should be integer")
-      .positive("rollnumber should be positive")
-      .optional(),
+      .int("roll_no should be integer")
+      .positive("roll_n0 should be positive"),
 
-    // class: z
-    //   .string({
-    //     error: (issue) =>
-    //       issue.input === null ? "class is required" : "class must be string",
-    //   })
-    //   .refine((id) => mongoose.Types.ObjectId.isValid(id), "invalid class id"),
+    classId: z
+      .string({
+        error: (issue) =>
+          issue.input === null ? "class is required" : "class must be string",
+      })
+      .refine((id) => mongoose.Types.ObjectId.isValid(id), "invalid class id"),
 
     parentName: z
       .string({
@@ -63,8 +70,8 @@ export const createStudentSchema = z.object({
             ? "parentName is required"
             : "parentName must be string",
       })
-      .min(3, "parent name atleast 3 character")
-      .max(10, "parent name shouldnot exceeds than 100 characters"),
+      .min(3, "parent name at least 3 character")
+      .max(10, "parent name should not exceeds than 100 characters"),
 
     parentPhone: z
       .string({
@@ -98,12 +105,12 @@ export const updateStudentSchema = z.object({
       .trim()
       .optional(),
 
-    rollno: z.coerce
+    roll_no: z.coerce
       .number({
         error: "rollno must be number",
       })
-      .int("rollno must be an integer")
-      .positive("rollno must be greater than 0")
+      .int("roll_no must be an integer")
+      .positive("roll_no must be greater than 0")
       .optional(),
 
     parentPhone: z
