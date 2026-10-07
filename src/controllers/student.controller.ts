@@ -107,7 +107,7 @@ export const createStudent = catchAsync(
     const existStudent = await User.findOne({ email: email }).select(
       "-password",
     );
-    const existClass = await Class.findOne({ classId });
+    const existClass = await Class.findById({ classId });
 
     if (!existClass) {
       throw new ApiError("Class is not found", 404);
