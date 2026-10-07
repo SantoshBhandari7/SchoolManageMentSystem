@@ -41,7 +41,7 @@ router.get(
 router.post(
   "/",
   // authenticate([Role.ADMIN]),
-  upload.single("profile_images"),
+  upload.single("profile_image"),
   validate(createStudentSchema),
   createStudent,
 );
