@@ -26,10 +26,18 @@ const uploader = () => {
     });
     const fileFilter = (req, file, cb) => {
         const allowed_extention = [".png", ".jpeg", ".jpg", ".svg", ".webp"];
-        const mime_types = ["image/jpg", "image/jpeg", "image/jpg", "image/svg", "image/webp"];
+        const mime_types = [
+            "image/jpg",
+            "image/png",
+            "image/jpeg",
+            "image/jpg",
+            "image/svg",
+            "image/webp",
+        ];
         const file_ext = path_1.default.extname(file.originalname);
         console.log(file);
-        if (!allowed_extention.includes(file_ext) || !mime_types.includes(file.mimetype)) {
+        if (!allowed_extention.includes(file_ext) ||
+            !mime_types.includes(file.mimetype)) {
             console.log(file);
             cb(new ApiError_utils_1.ApiError(`Invalid file format. only ${allowed_extention.join(",").replaceAll(".", "")}file are expected`, 422));
         }
@@ -39,6 +47,7 @@ const uploader = () => {
     };
     const upload = (0, multer_1.default)({
         storage,
+        fileFilter: fileFilter,
         limits: {
             fileSize: fileSize,
         },
