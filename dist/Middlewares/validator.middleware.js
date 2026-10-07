@@ -7,6 +7,7 @@ const validate = (schema) => {
             body: req.body,
             params: req.params,
             query: req.query,
+            file: req.file,
         });
         if (!result.success) {
             const errors = result.error?.issues.map(({ path, message }) => {
