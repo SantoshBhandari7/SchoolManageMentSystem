@@ -10,7 +10,6 @@ const student_validator_1 = require("../validators/student.validator");
 const multer_middleware_1 = require("../Middlewares/multer.middleware");
 const auth_middleware_1 = require("../Middlewares/auth.middleware");
 const enum_types_1 = require("../@types/enum.types");
-// import { upload } from "../utils/cloudinary.utils";
 const upload = (0, multer_middleware_1.uploader)();
 const router = express_1.default.Router();
 router.get("/", 

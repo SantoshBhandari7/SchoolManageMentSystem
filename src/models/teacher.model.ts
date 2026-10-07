@@ -11,6 +11,7 @@ const teacherSchema = new mongoose.Schema(
     },
     profile_image: {
       type: imageSchema,
+      required: [true, "profile_image is required"],
     },
     phone: {
       type: String,

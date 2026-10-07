@@ -18,7 +18,6 @@ import { uploader } from "../Middlewares/multer.middleware";
 import { profile } from "node:console";
 import { authenticate } from "../Middlewares/auth.middleware";
 import { Role } from "../@types/enum.types";
-// import { upload } from "../utils/cloudinary.utils";
 
 const upload = uploader();
 

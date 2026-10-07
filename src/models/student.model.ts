@@ -12,6 +12,7 @@ const studentSchema = new mongoose.Schema(
     },
     profile_image: {
       type: imageSchema,
+      required: [true, "profile_image is required"],
     },
     gender: {
       type: String,

@@ -16,7 +16,9 @@ import {
 } from "../validators/teacher.validator";
 import { authenticate } from "../Middlewares/auth.middleware";
 import { Role } from "../@types/enum.types";
+import { uploader } from "../Middlewares/multer.middleware";
 
+const upload = uploader();
 const router = express.Router();
 
 router.get(
@@ -36,6 +38,7 @@ router.get(
 router.post(
   "/",
   // authenticate([Role.ADMIN]),
+  upload.single("profile_image"),
   validate(createTeacherSchema),
   createTeacher,
 );
