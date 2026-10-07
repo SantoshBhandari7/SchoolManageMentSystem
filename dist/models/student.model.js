@@ -29,7 +29,7 @@ const studentSchema = new mongoose_1.default.Schema({
         type: Number,
         required: true,
     },
-    class: {
+    classId: {
         type: mongoose_1.default.Schema.Types.ObjectId,
         ref: "class",
         required: true,
