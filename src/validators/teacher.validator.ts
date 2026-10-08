@@ -119,7 +119,7 @@ export const updateTeacherSchema = z.object({
 
 export const deleteTeacherSchema = z.object({
   params: z.object({
-    id: z
+    userId: z
       .string()
       .refine((id) => mongoose.Types.ObjectId.isValid(id), "invalid id"),
   }),
@@ -127,7 +127,7 @@ export const deleteTeacherSchema = z.object({
 
 export const getByIdTeacherSchema = z.object({
   params: z.object({
-    id: z
+    userId: z
       .string()
       .refine((id) => mongoose.Types.ObjectId.isValid(id), "invalid id"),
   }),

@@ -3,6 +3,7 @@ import {
   createTeacher,
   deleteTeacher,
   getAllTeacher,
+  getMyTeacherProfile,
   getTeacherById,
   updateTeacher,
 } from "../controllers/teacher.controller";
@@ -17,6 +18,7 @@ import {
 import { authenticate } from "../Middlewares/auth.middleware";
 import { Role } from "../@types/enum.types";
 import { uploader } from "../Middlewares/multer.middleware";
+import { getProfile } from "../controllers/auth.controller";
 
 const upload = uploader();
 const router = express.Router();
@@ -29,8 +31,14 @@ router.get(
 );
 
 router.get(
+  "/me",
+  // authenticate(),
+  getMyTeacherProfile,
+);
+
+router.get(
   "/:userId",
-  authenticate([Role.ADMIN]),
+  // authenticate([Role.ADMIN]),
   validate(getByIdTeacherSchema),
   getTeacherById,
 );

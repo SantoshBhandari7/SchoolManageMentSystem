@@ -20,8 +20,7 @@ exports.createProgramSchema = zod_1.z.object({
         description: zod_1.z
             .string()
             .min(10, "Description must be at least 10 characters")
-            .max(500, "Description must not exceed 500 characters")
-            .optional(),
+            .max(500, "Description must not exceed 500 characters"),
         duration: zod_1.z
             .string()
             .min(1, "Duration must be at least 1 year")
@@ -29,8 +28,7 @@ exports.createProgramSchema = zod_1.z.object({
         eligibility: zod_1.z
             .string()
             .min(2, "Eligibility must be at least 2 characters")
-            .max(300, "Eligibility must not exceed 300 characters")
-            .optional(),
+            .max(300, "Eligibility must not exceed 300 characters"),
     }),
 });
 exports.getProgramsSchema = zod_1.z.object({

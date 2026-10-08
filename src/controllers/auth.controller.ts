@@ -129,20 +129,20 @@ export const login = catchAsync(
   },
 );
 
-// export const getProfile = catchAsync(async (req: Request, res: Response) => {
-//   const id = req.user._id;
-//   const user = await User.findOne({ _id: id });
+export const getProfile = catchAsync(async (req: Request, res: Response) => {
+  const id = req.user._id;
+  const user = await User.findOne({ _id: id });
 
-//   if (!user) {
-//     throw new ApiError("profile not found", 404);
-//   }
+  if (!user) {
+    throw new ApiError("profile not found", 404);
+  }
 
-//   sendResponse(res, {
-//     message: "profile fetched",
-//     data: user,
-//     statusCode: 200,
-//   });
-// });
+  sendResponse(res, {
+    message: "profile fetched",
+    data: user,
+    statusCode: 200,
+  });
+});
 
 export const logout = catchAsync(async (req, res) => {
   res.clearCookie("access_token", {

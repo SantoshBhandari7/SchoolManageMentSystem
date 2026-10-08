@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.logout = exports.login = exports.registerAdmin = void 0;
+exports.logout = exports.getProfile = exports.login = exports.registerAdmin = void 0;
 const catchAsync_utils_1 = require("../utils/catchAsync.utils");
 const user_model_1 = __importDefault(require("../models/user.model"));
 const ApiError_utils_1 = require("../utils/ApiError.utils");
@@ -105,18 +105,18 @@ exports.login = (0, catchAsync_utils_1.catchAsync)(async (req, res, next) => {
         statusCode: 201,
     });
 });
-// export const getProfile = catchAsync(async (req: Request, res: Response) => {
-//   const id = req.user._id;
-//   const user = await User.findOne({ _id: id });
-//   if (!user) {
-//     throw new ApiError("profile not found", 404);
-//   }
-//   sendResponse(res, {
-//     message: "profile fetched",
-//     data: user,
-//     statusCode: 200,
-//   });
-// });
+exports.getProfile = (0, catchAsync_utils_1.catchAsync)(async (req, res) => {
+    const id = req.user._id;
+    const user = await user_model_1.default.findOne({ _id: id });
+    if (!user) {
+        throw new ApiError_utils_1.ApiError("profile not found", 404);
+    }
+    (0, sendResponse_utils_1.sendResponse)(res, {
+        message: "profile fetched",
+        data: user,
+        statusCode: 200,
+    });
+});
 exports.logout = (0, catchAsync_utils_1.catchAsync)(async (req, res) => {
     res.clearCookie("access_token", {
         httpOnly: ENV_CONFIG_1.default.node_dev === "development" ? false : true,

@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteTeacher = exports.updateTeacher = exports.createTeacher = exports.getTeacherById = exports.getAllTeacher = void 0;
+exports.getMyTeacherProfile = exports.deleteTeacher = exports.updateTeacher = exports.createTeacher = exports.getTeacherById = exports.getAllTeacher = void 0;
 const catchAsync_utils_1 = require("../utils/catchAsync.utils");
 const user_model_1 = __importDefault(require("../models/user.model"));
 const ApiError_utils_1 = require("../utils/ApiError.utils");
@@ -157,5 +157,21 @@ exports.deleteTeacher = (0, catchAsync_utils_1.catchAsync)(async (req, res, next
             teacher,
         },
         statusCode: 201,
+    });
+});
+exports.getMyTeacherProfile = (0, catchAsync_utils_1.catchAsync)(async (req, res) => {
+    const userId = req.user._id;
+    const teacher = await teacher_model_1.default.findOne({
+        user: userId,
+    }).populate("user", "name email role");
+    if (!teacher) {
+        throw new ApiError_utils_1.ApiError("Teacher profile not found", 404);
+    }
+    (0, sendResponse_utils_1.sendResponse)(res, {
+        statusCode: 200,
+        message: "Teacher profile fetched successfully",
+        data: {
+            teacher,
+        },
     });
 });

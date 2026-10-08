@@ -14,6 +14,8 @@ const router = express_1.default.Router();
 const upload = (0, multer_middleware_1.uploader)();
 router.post("/register", (0, auth_middleware_1.authenticate)([enum_types_1.Role.ADMIN]), upload.single("profile_image"), (0, validator_middleware_1.validate)(auth_validator_1.registerUserSchema), auth_controller_1.registerAdmin);
 router.post("/Login", (0, validator_middleware_1.validate)(auth_validator_1.loginSchema), auth_controller_1.login);
-// router.get("/getprofile", authenticate(), getProfile);
+router.get("/getprofile", 
+// authenticate(),
+auth_controller_1.getProfile);
 router.post("/logout", (0, auth_middleware_1.authenticate)(), auth_controller_1.logout);
 exports.default = router;

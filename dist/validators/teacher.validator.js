@@ -105,14 +105,14 @@ exports.updateTeacherSchema = zod_1.default.object({
 });
 exports.deleteTeacherSchema = zod_1.default.object({
     params: zod_1.default.object({
-        id: zod_1.default
+        userId: zod_1.default
             .string()
             .refine((id) => mongoose_1.default.Types.ObjectId.isValid(id), "invalid id"),
     }),
 });
 exports.getByIdTeacherSchema = zod_1.default.object({
     params: zod_1.default.object({
-        id: zod_1.default
+        userId: zod_1.default
             .string()
             .refine((id) => mongoose_1.default.Types.ObjectId.isValid(id), "invalid id"),
     }),

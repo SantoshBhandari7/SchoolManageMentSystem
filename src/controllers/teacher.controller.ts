@@ -202,3 +202,25 @@ export const deleteTeacher = catchAsync(
     });
   },
 );
+
+export const getMyTeacherProfile = catchAsync(
+  async (req: Request, res: Response) => {
+    const userId = req.user._id;
+
+    const teacher = await Teacher.findOne({
+      user: userId,
+    }).populate("user", "name email role");
+
+    if (!teacher) {
+      throw new ApiError("Teacher profile not found", 404);
+    }
+
+    sendResponse(res, {
+      statusCode: 200,
+      message: "Teacher profile fetched successfully",
+      data: {
+        teacher,
+      },
+    });
+  },
+);
