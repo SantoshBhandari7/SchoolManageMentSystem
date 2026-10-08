@@ -24,21 +24,21 @@ exports.createSubjectSchema = zod_1.default.object({
         })
             .int("number should be in interger")
             .positive("credit our must be greater than 0"),
-        teacherId: zod_1.default
+        teacher: zod_1.default
             .string({
             error: (issue) => issue.input === null
                 ? "teacher is required"
                 : "teacher id must be in string",
         })
             .refine((id) => mongoose_1.default.Types.ObjectId.isValid(id), "teacher id is invalid"),
-        programId: zod_1.default
+        program: zod_1.default
             .string({
             error: (issue) => issue.input === null
                 ? "program is required"
                 : "program id must be in string",
         })
             .refine((id) => mongoose_1.default.Types.ObjectId.isValid(id), "program id is invalid"),
-        classId: zod_1.default
+        class: zod_1.default
             .string({
             error: "classId must be string",
         })
@@ -55,19 +55,19 @@ exports.updateSubjectSchema = zod_1.default.object({
             .min(4, "subject name should be atleast 4 character long")
             .max(100, "subjectname should not be exceed than 100 character long")
             .optional(),
-        classId: zod_1.default
+        class: zod_1.default
             .string({
             error: "classid must be string",
         })
             .refine((id) => mongoose_1.default.Types.ObjectId.isValid(id), "invalid class id")
             .optional(),
-        teacherId: zod_1.default
+        teacher: zod_1.default
             .string({
             error: "teacherid must be string",
         })
             .refine((id) => mongoose_1.default.Types.ObjectId.isValid(id), "invalid classid")
             .optional(),
-        crefithour: zod_1.default.coerce
+        credithour: zod_1.default.coerce
             .number({
             error: "credit must be number",
         })

@@ -137,7 +137,7 @@ export const createStudent = catchAsync(
 
     if (profile_image) {
       const { path, public_id } = await upload(profile_image, uploader);
-      user.profile_image = {
+      student.profile_image = {
         path,
         public_id,
       };

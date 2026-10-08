@@ -96,7 +96,7 @@ exports.createTeacher = (0, catchAsync_utils_1.catchAsync)(async (req, res, next
     user.password = hashPass;
     if (profile_image) {
         const { path, public_id } = await (0, cloudinary_utils_1.upload)(profile_image, uploader);
-        user.profile_image = {
+        teacher.profile_image = {
             path,
             public_id,
         };

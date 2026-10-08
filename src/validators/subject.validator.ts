@@ -21,7 +21,7 @@ export const createSubjectSchema = z.object({
       })
       .int("number should be in interger")
       .positive("credit our must be greater than 0"),
-    teacherId: z
+    teacher: z
       .string({
         error: (issue) =>
           issue.input === null
@@ -32,7 +32,7 @@ export const createSubjectSchema = z.object({
         (id) => mongoose.Types.ObjectId.isValid(id),
         "teacher id is invalid",
       ),
-    programId: z
+    program: z
       .string({
         error: (issue) =>
           issue.input === null
@@ -44,7 +44,7 @@ export const createSubjectSchema = z.object({
         "program id is invalid",
       ),
 
-    classId: z
+    class: z
       .string({
         error: "classId must be string",
       })
@@ -67,21 +67,21 @@ export const updateSubjectSchema = z.object({
       .max(100, "subjectname should not be exceed than 100 character long")
       .optional(),
 
-    classId: z
+    class: z
       .string({
         error: "classid must be string",
       })
       .refine((id) => mongoose.Types.ObjectId.isValid(id), "invalid class id")
       .optional(),
 
-    teacherId: z
+    teacher: z
       .string({
         error: "teacherid must be string",
       })
       .refine((id) => mongoose.Types.ObjectId.isValid(id), "invalid classid")
       .optional(),
 
-    crefithour: z.coerce
+    credithour: z.coerce
       .number({
         error: "credit must be number",
       })
