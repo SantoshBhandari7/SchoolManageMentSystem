@@ -26,9 +26,11 @@ exports.createClassSchema = zod_1.default.object({
                 : "room_number must be number",
         })
             .positive("number should be positive"),
-        teacherId: zod_1.default
+        teacher: zod_1.default
             .string({
-            error: "teacher must be string",
+            error: (issue) => issue.input === undefined
+                ? "teacher is required"
+                : "teacher must be string",
         })
             .refine((id) => mongoose_1.default.Types.ObjectId.isValid(id), "Invalid teacher Id"),
     }),

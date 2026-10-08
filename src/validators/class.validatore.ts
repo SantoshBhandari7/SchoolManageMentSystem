@@ -26,9 +26,12 @@ export const createClassSchema = z.object({
       })
       .positive("number should be positive"),
 
-    teacherId: z
+    teacher: z
       .string({
-        error: "teacher must be string",
+        error: (issue) =>
+          issue.input === undefined
+            ? "teacher is required"
+            : "teacher must be string",
       })
       .refine(
         (id) => mongoose.Types.ObjectId.isValid(id),

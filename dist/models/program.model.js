@@ -11,6 +11,7 @@ const programSchema = new mongoose_1.default.Schema({
     },
     description: {
         type: String,
+        required: true,
     },
     duration: {
         type: String,
@@ -18,6 +19,7 @@ const programSchema = new mongoose_1.default.Schema({
     },
     eligibility: {
         type: String,
+        required: true,
     },
 }, { timestamps: true });
 const Program = mongoose_1.default.model("program", programSchema);

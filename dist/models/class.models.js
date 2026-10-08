@@ -21,7 +21,8 @@ const classSchema = new mongoose_1.default.Schema({
     teacher: {
         type: mongoose_1.default.Schema.Types.ObjectId,
         ref: "teacher",
-    }
+        required: true,
+    },
 }, { timestamps: true });
 const Class = mongoose_1.default.model("class", classSchema);
 exports.default = Class;

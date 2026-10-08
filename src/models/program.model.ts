@@ -9,6 +9,7 @@ const programSchema = new mongoose.Schema(
     },
     description: {
       type: String,
+      required: true,
     },
     duration: {
       type: String,
@@ -16,6 +17,7 @@ const programSchema = new mongoose.Schema(
     },
     eligibility: {
       type: String,
+      required: true,
     },
   },
   { timestamps: true },
